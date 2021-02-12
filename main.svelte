@@ -50,11 +50,7 @@ const mod = {
 		// 	OLSKLocalized: OLSKLocalized,
 		// 	ParamMod: mod,
 		// 	ParamSpecUI: false,
-		// }).concat(mod._OLSKPasscode.modPublic.OLSKPasscodeRecipes({
-		// 	ParamMod: mod,
-		// 	ParamSpecUI: false,
-		// 	OLSKLocalized,
-		// })));
+		// });
 	
 		return items;
 	},
@@ -199,8 +195,6 @@ const mod = {
 			LCHOptionRecipes: mod.DataRecipes(),
 		});
 	},
-
-	OLSKPasscodeDispatchContinue () {},
 
 	// SETUP
 
@@ -393,7 +387,6 @@ const inputData = Object.assign({
 import OLSKCatalog from 'OLSKCatalog';
 import OLSKAppToolbar from 'OLSKAppToolbar';
 import OLSKStorageWidget from 'OLSKStorageWidget';
-import OLSKPasscode from 'OLSKPasscode';
 import _OLSKSharedCreate from './node_modules/OLSKUIAssets/_OLSKSharedCreate.svg';
 import _OLSKSharedBack from './node_modules/OLSKUIAssets/_OLSKSharedBack.svg';
 import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.svg';
@@ -476,8 +469,6 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 </footer>
 
 </div>
-
-<OLSKPasscode OLSKPasscodeDispatchContinue={ mod.OLSKPasscodeDispatchContinue } bind:this={ mod._OLSKPasscode } />
 
 <style>
 :root {
