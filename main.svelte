@@ -7,6 +7,7 @@ import XYZDocumentAction from './_shared/XYZDocument/action.js';
 import OLSKThrottle from 'OLSKThrottle';
 import OLSKCrypto from 'OLSKCrypto';
 import OLSKLocalStorage from 'OLSKLocalStorage';
+import OLSKServiceWorker from 'OLSKServiceWorker';
 const wn = webnative;
 
 import { OLSKLocalized } from 'OLSKInternational';
@@ -43,6 +44,8 @@ const mod = {
 
 	DataRecipes () {
 		const items = [];
+
+		items.push(...OLSKServiceWorker.OLSKServiceWorkerRecipes(window, mod.DataNavigator(), OLSKLocalized, OLSK_SPEC_UI()));
 
 		// items.push(...OLSKRemoteStorage.OLSKRemoteStorageRecipes({
 		// 	ParamWindow: window,
@@ -387,6 +390,7 @@ const inputData = Object.assign({
 import OLSKCatalog from 'OLSKCatalog';
 import OLSKAppToolbar from 'OLSKAppToolbar';
 import OLSKStorageWidget from 'OLSKStorageWidget';
+import OLSKServiceWorkerView from './node_modules/OLSKServiceWorker/main.svelte';
 import _OLSKSharedCreate from './node_modules/OLSKUIAssets/_OLSKSharedCreate.svg';
 import _OLSKSharedBack from './node_modules/OLSKUIAssets/_OLSKSharedBack.svg';
 import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.svg';
@@ -469,6 +473,8 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 </footer>
 
 </div>
+
+<OLSKServiceWorkerView OLSKServiceWorkerRegistrationRoute={ window.OLSKCanonical('FissionProofServiceWorkerRoute') } />
 
 <style>
 :root {

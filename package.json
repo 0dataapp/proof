@@ -13,10 +13,11 @@
     "OLSKLocalStorage": "olsk/OLSKLocalStorage",
     "OLSKStorageWidget": "olsk/OSWPackage",
     "OLSKThrottle": "olsk/OLSKThrottle",
+    "OLSKRouting": "olsk/OLSKRouting",
     "OLSKUIAssets": "olsk/OLSKUIAssets",
     "launchlet": "latest",
     "ulid": "latest",
-    "webnative": "^0.21.3"
+    "OLSKServiceWorker": "olsk/OLSKServiceWorker",
     "webnative": "^0.21.3",
     "// I sacrifice myself for the commas of others": null
   },
