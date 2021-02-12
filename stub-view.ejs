@@ -1,0 +1,20 @@
+<%
+locals.OLSKPageAssets = [
+	'/node_modules/normalize.css/normalize.css',
+	'/node_modules/OLSKDecor/ui-style.css',
+
+	'/node_modules/OLSKStorageWidget/__compiled/OLSKStorageWidget.js',
+
+	'/node_modules/launchlet/__compiled/launchlet.css',
+	'/node_modules/launchlet/__compiled/launchlet.js',
+
+	'/node_modules/webnative/index.umd.js',
+	
+	'__compiled/ui-style.css',
+];
+locals.OLSKPagePublicConstants = {
+	OLSKSharedPageCurrentLanguage,
+};
+%>
+
+<script src="/<%= OLSKSharedPageControllerSlug %>/__compiled/ui-behaviour.js"></script>

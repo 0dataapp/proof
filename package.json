@@ -1,0 +1,27 @@
+{
+  "scripts": {
+    "postinstall": "node ./package-postinstall.js",
+    "start": "olsk-express .",
+    "build": "olsk-rollup",
+    "watch": "olsk-rollup-watch"
+  },
+  "dependencies": {
+    "OLSKAppToolbar": "olsk/OLSKAppToolbar",
+    "OLSKCatalog": "olsk/OLSKCatalog",
+    "OLSKPasscode": "olsk/OLSKPasscode",
+    "OLSKRemoteStorage": "olsk/OLSKRemoteStorage",
+    "OLSKLocalStorage": "olsk/OLSKLocalStorage",
+    "OLSKStorageWidget": "olsk/OSWPackage",
+    "OLSKThrottle": "olsk/OLSKThrottle",
+    "OLSKUIAssets": "olsk/OLSKUIAssets",
+    "launchlet": "latest",
+    "ulid": "latest",
+    "webnative": "^0.21.3"
+  },
+  "devDependencies": {
+    "OLSKExpress": "olsk/OLSKExpress",
+    "OLSKRollupScaffold": "olsk/OLSKRollupScaffold",
+    "OLSKString": "olsk/OLSKString",
+    "OLSKHotfix": "olsk/OLSKHotfix"
+  }
+}
