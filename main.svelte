@@ -42,17 +42,21 @@ const mod = {
 	},
 
 	DataRecipes () {
-		return OLSKRemoteStorage.OLSKRemoteStorageRecipes({
-			ParamWindow: window,
-			ParamStorage: mod._ValueOLSKRemoteStorage,
-			OLSKLocalized: OLSKLocalized,
-			ParamMod: mod,
-			ParamSpecUI: false,
-		}).concat(mod._OLSKPasscode.modPublic.OLSKPasscodeRecipes({
-			ParamMod: mod,
-			ParamSpecUI: false,
-			OLSKLocalized,
-		}));
+		const items = [];
+
+		// items.push(...OLSKRemoteStorage.OLSKRemoteStorageRecipes({
+		// 	ParamWindow: window,
+		// 	ParamStorage: mod._ValueOLSKRemoteStorage,
+		// 	OLSKLocalized: OLSKLocalized,
+		// 	ParamMod: mod,
+		// 	ParamSpecUI: false,
+		// }).concat(mod._OLSKPasscode.modPublic.OLSKPasscodeRecipes({
+		// 	ParamMod: mod,
+		// 	ParamSpecUI: false,
+		// 	OLSKLocalized,
+		// })));
+	
+		return items;
 	},
 
 	// INTERFACE
