@@ -388,7 +388,7 @@ const inputData = Object.assign({
 
 import OLSKCatalog from 'OLSKCatalog';
 import OLSKAppToolbar from 'OLSKAppToolbar';
-import OLSKStorageWidget from 'OLSKStorageWidget';
+import OLSKCloud from 'OLSKCloud';
 import OLSKServiceWorkerView from './node_modules/OLSKServiceWorker/main.svelte';
 import _OLSKSharedCreate from './node_modules/OLSKUIAssets/_OLSKSharedCreate.svg';
 import _OLSKSharedBack from './node_modules/OLSKUIAssets/_OLSKSharedBack.svg';
@@ -459,7 +459,7 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 
 			<div class="OLSKToolbarElementGroup">
 				<button on:click={ mod.InterfaceAuthenticateButtonDidClick }>Authenticate</button>
-				<!-- <OLSKStorageWidget StorageClient={ mod._ValueOLSKRemoteStorage } /> -->
+				<!-- <OLSKCloud StorageClient={ mod._ValueOLSKRemoteStorage } /> -->
 			</div>
 		</div>
 	{/if}

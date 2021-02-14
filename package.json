@@ -10,7 +10,7 @@
     "OLSKCatalog": "olsk/OLSKCatalog",
     "OLSKRemoteStorage": "olsk/OLSKRemoteStorage",
     "OLSKLocalStorage": "olsk/OLSKLocalStorage",
-    "OLSKStorageWidget": "olsk/OSWPackage",
+    "OLSKCloud": "olsk/OLSKCloud",
     "OLSKThrottle": "olsk/OLSKThrottle",
     "OLSKRouting": "olsk/OLSKRouting",
     "OLSKUIAssets": "olsk/OLSKUIAssets",
