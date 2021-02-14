@@ -8,7 +8,6 @@
   "dependencies": {
     "OLSKAppToolbar": "olsk/OLSKAppToolbar",
     "OLSKCatalog": "olsk/OLSKCatalog",
-    "OLSKPasscode": "olsk/OLSKPasscode",
     "OLSKRemoteStorage": "olsk/OLSKRemoteStorage",
     "OLSKLocalStorage": "olsk/OLSKLocalStorage",
     "OLSKStorageWidget": "olsk/OSWPackage",

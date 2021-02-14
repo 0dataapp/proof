@@ -5,7 +5,6 @@ import RemoteStorage from 'remotestoragejs';
 import OLSKRemoteStorage from 'OLSKRemoteStorage'
 import XYZDocumentAction from './_shared/XYZDocument/action.js';
 import OLSKThrottle from 'OLSKThrottle';
-import OLSKCrypto from 'OLSKCrypto';
 import OLSKLocalStorage from 'OLSKLocalStorage';
 import OLSKServiceWorker from 'OLSKServiceWorker';
 const wn = webnative;
