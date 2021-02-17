@@ -1,9 +1,10 @@
 <script>
-import XYZ_Data from './_shared/XYZ_Data/main.js';
-import XYZDocumentStorage from './_shared/XYZDocument/storage.js';
+// import XYZ_Data from './_shared/XYZ_Data/main.js';
+// import XYZDocumentStorage from './_shared/XYZDocument/storage.js';
 import RemoteStorage from 'remotestoragejs';
 import OLSKRemoteStorage from 'OLSKRemoteStorage'
-import XYZDocumentAction from './_shared/XYZDocument/action.js';
+// import XYZDocumentAction from './_shared/XYZDocument/action.js';
+import XYZDocument from './_shared/XYZDocument/main.js';
 import OLSKThrottle from 'OLSKThrottle';
 import OLSKLocalStorage from 'OLSKLocalStorage';
 import OLSKServiceWorker from 'OLSKServiceWorker';
