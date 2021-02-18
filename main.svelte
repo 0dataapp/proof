@@ -157,12 +157,6 @@ const mod = {
 		document.querySelector('.TestItemField').focus();
 	},
 
-	ControlAuthenticate () {
-		OLSKLocalStorage.OLKSLocalStorageSet(localStorage, 'XYZ_DID_AUTHENTICATE', true);
-
-		mod.SetupStorageClient();
-	},
-
 	// MESSAGE
 
 	OLSKCatalogDispatchClick (inputData) {
@@ -203,6 +197,60 @@ const mod = {
 		});
 	},
 
+	OLSKCloudDispatchRenew () {
+		mod._ValueZDRWrap.ZDRCloudReconnect(mod._ValueCloudIdentity);
+	},
+
+	async OLSKCloudFormDispatchSubmit (inputData) {
+		const protocol = zerodatawrap.ZDRProtocolForIdentity(inputData);
+
+		if (localStorage.getItem('XYZ_STORAGE_PROTOCOL') && (localStorage.getItem('XYZ_STORAGE_PROTOCOL') !== protocol)) {
+			localStorage.setItem('XYZ_STORAGE_PROTOCOL_MIGRATE', localStorage.getItem('XYZ_STORAGE_PROTOCOL'));
+		}
+
+		localStorage.setItem('XYZ_STORAGE_PROTOCOL', protocol);
+
+		(localStorage.getItem('XYZ_STORAGE_PROTOCOL_MIGRATE') ? await mod.DataStorageClient(localStorage.getItem('XYZ_STORAGE_PROTOCOL')) : mod._ValueZDRWrap).ZDRCloudConnect(inputData);
+	},
+
+	OLSKCloudStatusDispatchSyncStart () {
+		mod._ValueIsSyncing = true;
+
+		mod._ValueOLSKRemoteStorage.startSync();
+	},
+
+	OLSKCloudStatusDispatchSyncStop () {
+		mod._ValueOLSKRemoteStorage.stopSync();
+	},
+
+	OLSKCloudStatusDispatchDisconnect () {
+		mod._ValueZDRWrap.ZDRCloudDisconnect();
+
+		mod._ValueCloudIdentity = null;
+	},
+
+	ZDRParamDispatchError (error) {
+		mod._ValueCloudErrorText = error.toString();
+	},
+
+	ZDRParamDispatchConnected (identity) {
+		mod._ValueCloudIdentity = identity;
+	},
+
+	ZDRParamDispatchOnline () {
+		mod._ValueCloudIsOffline = false;
+	},
+
+	ZDRParamDispatchOffline () {
+		mod._ValueCloudIsOffline = true;
+	},
+
+	ZDRSchemaDispatchSyncConflict (event) {
+		setTimeout(async function () {
+			console.log(await mod._ValueZDRWrap.App.XYZDocument.XYZDocumentCreate(OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse(event.oldValue)));
+		}, 500);
+	},
+
 	ZDRParamDispatchError (error) {
 		mod._ValueCloudErrorText = error.message;
 	},
@@ -224,29 +272,39 @@ const mod = {
 		}
 	},
 
-	async SetupStorageClient () {
+	DataStorageClient (inputData) {
 		const tree = JSON.parse(localStorage.getItem('XYZ_TREE')) || {};
 
-		return new Promise(function (ZDRParamDispatchReady, rej) {
-			mod._ValueZDRWrap = zerodatawrap.ZDRWrap({
-				ZDRParamLibrary: OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_DID_AUTHENTICATE') ? webnative : {
-					ZDRClientWriteFile (param1, param2) {
-						localStorage.setItem('XYZ_TREE', JSON.stringify(Object.assign(tree, {
-							[param1]: param2,
-						})))
-					},
-					ZDRClientReadFile (inputData) {
-						return tree[inputData];
-					},
-					ZDRClientListObjects () {
-						return tree;
-					},
-					ZDRClientDelete (param1) {
-						delete tree[param1];
+		return new Promise(function (res, rej) {
+			const client = zerodatawrap.ZDRWrap({
+				ZDRParamLibrary: (function() {
+					if (inputData === zerodatawrap.ZDRProtocolFission()) {
+						return webnative;
+					}
 
-						localStorage.setItem('XYZ_TREE', JSON.stringify(tree))
-					},
-				},
+					if (inputData === zerodatawrap.ZDRProtocolRemoteStorage()) {
+						return RemoteStorage;
+					}
+
+					return {
+						ZDRClientWriteFile (param1, param2) {
+							localStorage.setItem('XYZ_TREE', JSON.stringify(Object.assign(tree, {
+								[param1]: param2,
+							})))
+						},
+						ZDRClientReadFile (inputData) {
+							return tree[inputData];
+						},
+						ZDRClientListObjects () {
+							return tree;
+						},
+						ZDRClientDelete (param1) {
+							delete tree[param1];
+
+							localStorage.setItem('XYZ_TREE', JSON.stringify(tree))
+						},
+					};
+				})(),
 				ZDRParamScopes: [{
 					ZDRScopeKey: 'App',
 					ZDRScopeDirectory,
@@ -254,10 +312,23 @@ const mod = {
 						ZDRSchemaKey: 'XYZDocument',
 					})],
 				}],
-				ZDRParamDispatchReady,
+				ZDRParamDispatchReady () {
+					return res(client);
+				},
 				ZDRParamDispatchError: mod.ZDRParamDispatchError,
+				ZDRParamDispatchConnected: mod.ZDRParamDispatchConnected,
+				ZDRParamDispatchOnline: mod.ZDRParamDispatchOnline,
+				ZDRParamDispatchOffline: mod.ZDRParamDispatchOffline,
 			});
 		});
+	},
+
+	async SetupStorageClient () {
+		if (!localStorage.getItem('XYZ_STORAGE_PROTOCOL')) {
+			localStorage.setItem('XYZ_STORAGE_PROTOCOL', zerodatawrap.ZDRProtocolCustom());
+		}
+
+		mod._ValueZDRWrap = await mod.DataStorageClient(localStorage.getItem('XYZ_STORAGE_PROTOCOL'));
 
 		// const state = await wn.initialise({
 		//   permissions: {
@@ -412,10 +483,21 @@ const mod = {
       await mod._ValueZDRWrap.ZDRStorageClient().mkdir(`/private/${ZDRScopeDirectory}`)
     }
 
-    if (mod._ValueZDRWrap.ZDRStorageProtocol === zerodatawrap.ZDRProtocolFission() && OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_TREE')) {
-    	console.log(await Promise.all(OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse(Object.entries(OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_TREE')).map(JSON.parse)).map(mod._ValueZDRWrap.App.XYZDocument.XYZDocumentCreate)));
+    // if (mod._ValueZDRWrap.ZDRStorageProtocol === zerodatawrap.ZDRProtocolFission() && OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_TREE')) {
+    // 	console.log(await Promise.all(OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse(Object.entries(OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_TREE')).map(JSON.parse)).map(mod._ValueZDRWrap.App.XYZDocument.XYZDocumentCreate)));
 
-    	OLSKLocalStorage.OLKSLocalStorageSet(localStorage, 'XYZ_TREE', null)
+    // 	OLSKLocalStorage.OLKSLocalStorageSet(localStorage, 'XYZ_TREE', null)
+    // };
+
+    if (localStorage.getItem('XYZ_STORAGE_PROTOCOL_MIGRATE')) {
+    	const client = await mod.DataStorageClient(localStorage.getItem('XYZ_STORAGE_PROTOCOL_MIGRATE'));
+    	
+    	await Promise.all(Object.entries(await client.App.ZDRStorageListObjects('')).map(async function ([key, value]) {
+    		await mod._ValueZDRWrap.App.ZDRStorageWriteObject(key, JSON.parse(value));
+    		await client.App.ZDRStorageDelete(key);
+    	}));
+
+    	localStorage.removeItem('XYZ_STORAGE_PROTOCOL_MIGRATE');
     };
 
     (await mod._ValueZDRWrap.App.XYZDocument.XYZDocumentList()).map(mod._OLSKCatalog.modPublic.OLSKCatalogInsert);
@@ -515,14 +597,24 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 			</div>
 
 			<div class="OLSKToolbarElementGroup">
-				<button on:click={ mod.InterfaceAuthenticateButtonDidClick }>Authenticate</button>
-				<!-- <OLSKCloud StorageClient={ mod._ValueOLSKRemoteStorage } /> -->
+				<OLSKCloud
+					OLSKCloudErrorText={ mod._ValueCloudErrorText }
+					OLSKCloudDispatchRenew={ mod.OLSKCloudDispatchRenew }
+					OLSKCloudFormDispatchSubmit={ mod.OLSKCloudFormDispatchSubmit }
+					OLSKCloudStatusIdentityText={ mod._ValueCloudIdentity }
+					OLSKCloudStatusIsSyncing={ mod._ValueIsSyncing }
+					OLSKCloudStatusDispatchSyncStart={ mod.OLSKCloudStatusDispatchSyncStart }
+					OLSKCloudStatusDispatchSyncStop={ mod.OLSKCloudStatusDispatchSyncStop }
+					OLSKCloudStatusDispatchDisconnect={ mod.OLSKCloudStatusDispatchDisconnect }
+					/>
 			</div>
 		</div>
 	{/if}
 
 	<OLSKAppToolbar
-		OLSKAppToolbarStorageStatus={ mod._ValueFooterStorageStatus }
+		OLSKAppToolbarCloudConnected={ !!mod._ValueCloudIdentity }
+		OLSKAppToolbarCloudOffline={ mod._ValueCloudIsOffline }
+		OLSKAppToolbarCloudError={ !!mod._ValueCloudErrorText }
 		OLSKAppToolbarDispatchStorage={ mod.OLSKAppToolbarDispatchStorage }
 		OLSKAppToolbarDispatchLauncher={ mod.OLSKAppToolbarDispatchLauncher }
 		/>
