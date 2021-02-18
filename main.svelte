@@ -1,15 +1,12 @@
 <script>
-// import XYZ_Data from './_shared/XYZ_Data/main.js';
-// import XYZDocumentStorage from './_shared/XYZDocument/storage.js';
-import RemoteStorage from 'remotestoragejs';
 import OLSKRemoteStorage from 'OLSKRemoteStorage'
-// import XYZDocumentAction from './_shared/XYZDocument/action.js';
 import XYZDocument from './_shared/XYZDocument/main.js';
 import OLSKThrottle from 'OLSKThrottle';
 import OLSKLocalStorage from 'OLSKLocalStorage';
 import OLSKServiceWorker from 'OLSKServiceWorker';
 import zerodatawrap from 'zerodatawrap';
 
+import RemoteStorage from 'remotestoragejs';
 const wn = webnative;
 
 import { OLSKLocalized } from 'OLSKInternational';
@@ -109,26 +106,16 @@ const mod = {
 	// CONTROL
 
 	async ControlItemCreate () {
-		const item = mod.DataItemValid();
-
-		await mod._ValueZDRWrap.App.XYZDocument.XYZDocumentCreate(item);
-
-		// mod.ControlItemSelect(mod._OLSKCatalog.modPublic.OLSKCatalogInsert(await XYZDocumentAction.XYZDocumentActionCreate(mod._ValueOLSKRemoteStorage, mod.DataItemValid())));
-
-		mod.ControlItemSelect(mod._OLSKCatalog.modPublic.OLSKCatalogInsert(item));
+		mod.ControlItemSelect(mod._OLSKCatalog.modPublic.OLSKCatalogInsert(await mod._ValueZDRWrap.App.XYZDocument.XYZDocumentCreate(mod.DataItemValid())));
 	},
 
 	ControlItemUpdate (inputData) {
 		OLSKThrottle.OLSKThrottleMappedTimeout(mod._ValueSaveThrottleMap, inputData.XYZDocumentID, {
 			OLSKThrottleDuration: 250,
 			async OLSKThrottleCallback () {
-				const item = Object.assign(mod._OLSKCatalog.modPublic.OLSKCatalogDataItemSelected(), {
+				mod._ValueZDRWrap.App.XYZDocument.XYZDocumentUpdate(Object.assign(mod._OLSKCatalog.modPublic.OLSKCatalogDataItemSelected(), {
 					XYZDocumentModificationDate: new Date(),
-				});
-
-				mod._ValueZDRWrap.App.XYZDocument.XYZDocumentUpdate(item);
-
-				// await XYZDocumentAction.XYZDocumentActionUpdate(mod._ValueOLSKRemoteStorage, inputData);
+				}));
 			},
 		});
 	},
@@ -327,165 +314,12 @@ const mod = {
 		}
 
 		mod._ValueZDRWrap = await mod.DataStorageClient(localStorage.getItem('XYZ_STORAGE_PROTOCOL'));
-
-		// const state = await wn.initialise({
-		//   permissions: {
-		//     // app: {
-		//     //   name: 'fission-proof',
-		//     //   creator: 'rosano.ca',
-		//     // },
-
-		//     fs: {
-		//       privatePaths: [ 'fission-proof' ],
-		//     }
-		//   }
-		// });
-		// console.log('hello', OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_DID_AUTHENTICATE'), state.scenario);
-
-		// switch (state.scenario) {
-		//   case wn.Scenario.AuthCancelled:
-		//     // User was redirected to lobby,
-		//     // but cancelled the authorisation
-		//     break;
-
-		//   case wn.Scenario.AuthSucceeded:
-		//   case wn.Scenario.Continuation:
-		//   	console.log(window.alfa = state.fs);
-		//     mod._ValueWNFS = state.fs;
-		    
-		//     const scopeDirectory = 'private/fission-proof';
-		//     mod._ValueWNFSPath = function (inputData) {
-		//     	return scopeDirectory + '/' + inputData.XYZDocumentID;
-		//     };
-		//     mod._ValueWNFSWrite = async function (inputData) {
-		//     	await mod._ValueWNFS.write(mod._ValueWNFSPath(inputData), JSON.stringify(inputData));
-		//     	// return mod._ValueWNFS.publish();
-		//     };
-		//     mod._ValueWNFSDelete = async function (inputData) {
-		//     	await mod._ValueWNFS.rm(mod._ValueWNFSPath(inputData));
-		//     	// return mod._ValueWNFS.publish();
-		//     };
-
-		//     if (!await mod._ValueWNFS.exists(scopeDirectory)) {
-		//       await mod._ValueWNFS.mkdir(scopeDirectory)
-		//     }
-
-		//     if (OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_ITEMS')) {
-		//     	console.log(await Promise.all(OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse(OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_ITEMS')).map(mod._ValueWNFSWrite)));
-
-		//     	OLSKLocalStorage.OLKSLocalStorageSet(localStorage, 'XYZ_ITEMS', null)
-		//     };
-
-		//     // await mod._ValueWNFS.publish();
-
-	 //    	const links = Object.entries(await mod._ValueWNFS.ls(scopeDirectory));
-	 //      console.log({
-	 //      	links,
-	 //      });
-
-	 //      // working with links
-	 //      const data = await Promise.all(links.map(([name, _]) => {
-	 //        return mod._ValueWNFS.cat(`${ scopeDirectory }/${name}`)
-	 //      }))
-
-	 //      console.log({
-	 //      	data,
-	 //      });
-
-	 //    	OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse(data.map(JSON.parse)).map(mod._OLSKCatalog.modPublic.OLSKCatalogInsert);
-
-		//     break;
-
-		//   case wn.Scenario.NotAuthorised:
-		//     wn.redirectToLobby(state.permissions)
-		//     break;
-		// }
-
-		// const storageModule = XYZ_Data.XYZ_DataModule([
-		// 	Object.assign(XYZDocumentStorage.XYZDocumentStorageBuild, {
-		// 		OLSKChangeDelegate: {
-		// 			OLSKChangeDelegateCreate: mod._OLSKCatalog.modPublic.OLSKCatalogInsert,
-		// 			OLSKChangeDelegateUpdate: mod._OLSKCatalog.modPublic.OLSKCatalogUpdate,
-		// 			OLSKChangeDelegateDelete: mod._OLSKCatalog.modPublic.OLSKCatalogRemove,
-		// 		},
-		// 	}),
-		// 	], {
-		// });
-		
-		// mod._ValueOLSKRemoteStorage = new RemoteStorage({
-		// 	modules: [ storageModule ],
-		// });
-
-		// const hash = window.localStorage.getItem('OLSK_PASSCODE_HASH');
-		// if (hash) {
-		// 	const functions = OLSKCrypto.OLSKCryptoAESFunctions(hash);
-
-		// 	mod._ValueOLSKRemoteStorage.test_rs_encrypt.OLSKRemoteStorageEnableCrypto(functions.OLSKCryptoAESFunctionsEncrypt, functions.OLSKCryptoAESFunctionsDecrypt);
-		// }
-
-		// mod._ValueOLSKRemoteStorage.access.claim(storageModule.name, 'rw');
-
-		// mod._ValueOLSKRemoteStorage.caching.enable(`/${ storageModule.name }/`);
-	},
-
-	SetupStorageStatus () {
-		// OLSKRemoteStorage.OLSKRemoteStorageStatus(mod._ValueOLSKRemoteStorage, function (inputData) {
-		// 	mod._ValueFooterStorageStatus = inputData;
-		// }, OLSKLocalized);
-	},
-
-	StorageConnected () {
-		mod._ValueStorageIsConnected = true;
-	},
-
-	StorageNotConnected () {},
-
-	StorageSyncDone () {},
-
-	SetupStorageNotifications () {
-		// mod._ValueOLSKRemoteStorage.on('connected', mod.StorageConnected);
-
-		// mod._ValueOLSKRemoteStorage.on('not-connected', mod.StorageNotConnected);
-
-		// mod._ValueOLSKRemoteStorage.on('sync-done', mod.StorageSyncDone);
-
-		// let isOffline;
-
-		// mod._ValueOLSKRemoteStorage.on('network-offline', () => {
-		// 	console.debug('network-offline', arguments);
-
-		// 	isOffline = true;
-		// });
-
-		// mod._ValueOLSKRemoteStorage.on('network-online', () => {
-		// 	console.debug('network-online', arguments);
-			
-		// 	isOffline = false;
-		// });
-
-		// mod._ValueOLSKRemoteStorage.on('error', (error) => {
-		// 	if (isOffline && inputData.message === 'Sync failed: Network request failed.') {
-		// 		return;
-		// 	};
-
-		// 	console.debug('error', error);
-		// });
-
-		// return new Promise(function (res, rej) {
-		// 	return mod._ValueOLSKRemoteStorage.on('ready', res);
-		// })
 	},
 
 	async SetupCatalog() {
 		if (mod._ValueZDRWrap.ZDRStorageProtocol === zerodatawrap.ZDRProtocolFission() && !await mod._ValueZDRWrap.ZDRStorageClient().exists(`/private/${ZDRScopeDirectory}`)) {
       await mod._ValueZDRWrap.ZDRStorageClient().mkdir(`/private/${ZDRScopeDirectory}`)
     }
-
-    // if (mod._ValueZDRWrap.ZDRStorageProtocol === zerodatawrap.ZDRProtocolFission() && OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_TREE')) {
-    // 	console.log(await Promise.all(OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse(Object.entries(OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_TREE')).map(JSON.parse)).map(mod._ValueZDRWrap.App.XYZDocument.XYZDocumentCreate)));
-
-    // 	OLSKLocalStorage.OLKSLocalStorageSet(localStorage, 'XYZ_TREE', null)
-    // };
 
     if (localStorage.getItem('XYZ_STORAGE_PROTOCOL_MIGRATE')) {
     	const client = await mod.DataStorageClient(localStorage.getItem('XYZ_STORAGE_PROTOCOL_MIGRATE'));
@@ -499,8 +333,6 @@ const mod = {
     };
 
     (await mod._ValueZDRWrap.App.XYZDocument.XYZDocumentList()).map(mod._OLSKCatalog.modPublic.OLSKCatalogInsert);
-
-		// (await XYZDocumentAction.XYZDocumentActionList(mod._ValueOLSKRemoteStorage)).map(mod._OLSKCatalog.modPublic.OLSKCatalogInsert);
 	},
 
 	// LIFECYCLE
