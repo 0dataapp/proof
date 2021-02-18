@@ -125,7 +125,7 @@ const mod = {
 
 		mod._OLSKCatalog.modPublic.OLSKCatalogSelect(null);
 
-		mod._ValueZDRWrap.App.XYZDocument.XYZDocumentDelete(inputData);
+		mod._ValueZDRWrap.App.XYZDocument.ZDRModelDeleteObject(inputData);
 
 		mod._OLSKCatalog.modPublic.OLSKCatalogFocusMaster(); // #purge-not-focusing
 	},
