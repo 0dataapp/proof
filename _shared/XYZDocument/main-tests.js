@@ -2,38 +2,38 @@ const { rejects, throws, deepEqual } = require('assert');
 
 const mod = require('./main.js').default;
 
-describe('ZDRSchemaStubCallback', function ZDRSchemaStubCallback() {
+describe('ZDRSchemaStub', function ZDRSchemaStub() {
 
 	it('returns string', function() {
 		const XYZDocumentID = Math.random().toString();
-		deepEqual(mod.ZDRSchemaStubCallback(XYZDocumentID), {
+		deepEqual(mod.ZDRSchemaStub(XYZDocumentID), {
 			XYZDocumentID,
 		});
 	});
 
 });
 
-describe('ZDRSchemaPathCallback', function ZDRSchemaPathCallback() {
+describe('ZDRSchemaPath', function ZDRSchemaPath() {
 
 	it('returns string', function() {
 		const XYZDocumentID = Math.random().toString();
-		deepEqual(mod.ZDRSchemaPathCallback({
+		deepEqual(mod.ZDRSchemaPath({
 			XYZDocumentID,
 		}), XYZDocumentID);
 	});
 
 });
 
-describe('ZDRSchemaValidationCallback', function test_ZDRSchemaValidationCallback() {
+describe('ZDRSchemaDispatchValidate', function test_ZDRSchemaDispatchValidate() {
 
 	it('throws error if not object', function() {
 		throws(function() {
-			mod.ZDRSchemaValidationCallback(null);
+			mod.ZDRSchemaDispatchValidate(null);
 		}, /XYZErrorInputNotValid/);
 	});
 
 	it('returns object if XYZDocumentID not string', function() {
-		deepEqual(mod.ZDRSchemaValidationCallback(Object.assign(StubDocumentObjectValid(), {
+		deepEqual(mod.ZDRSchemaDispatchValidate(Object.assign(StubDocumentObjectValid(), {
 			XYZDocumentID: null,
 		})), {
 			XYZDocumentID: [
@@ -43,7 +43,7 @@ describe('ZDRSchemaValidationCallback', function test_ZDRSchemaValidationCallbac
 	});
 
 	it('returns object if XYZDocumentID not filled', function() {
-		deepEqual(mod.ZDRSchemaValidationCallback(Object.assign(StubDocumentObjectValid(), {
+		deepEqual(mod.ZDRSchemaDispatchValidate(Object.assign(StubDocumentObjectValid(), {
 			XYZDocumentID: ' ',
 		})), {
 			XYZDocumentID: [
@@ -53,7 +53,7 @@ describe('ZDRSchemaValidationCallback', function test_ZDRSchemaValidationCallbac
 	});
 
 	it('returns object if XYZDocumentName not string', function() {
-		deepEqual(mod.ZDRSchemaValidationCallback(Object.assign(StubDocumentObjectValid(), {
+		deepEqual(mod.ZDRSchemaDispatchValidate(Object.assign(StubDocumentObjectValid(), {
 			XYZDocumentName: null,
 		})), {
 			XYZDocumentName: [
@@ -63,7 +63,7 @@ describe('ZDRSchemaValidationCallback', function test_ZDRSchemaValidationCallbac
 	});
 
 	it('returns object if XYZDocumentCreationDate not date', function() {
-		deepEqual(mod.ZDRSchemaValidationCallback(Object.assign(StubDocumentObjectValid(), {
+		deepEqual(mod.ZDRSchemaDispatchValidate(Object.assign(StubDocumentObjectValid(), {
 			XYZDocumentCreationDate: new Date('alfa'),
 		})), {
 			XYZDocumentCreationDate: [
@@ -73,7 +73,7 @@ describe('ZDRSchemaValidationCallback', function test_ZDRSchemaValidationCallbac
 	});
 
 	it('returns object if XYZDocumentModificationDate not date', function() {
-		deepEqual(mod.ZDRSchemaValidationCallback(Object.assign(StubDocumentObjectValid(), {
+		deepEqual(mod.ZDRSchemaDispatchValidate(Object.assign(StubDocumentObjectValid(), {
 			XYZDocumentModificationDate: new Date('alfa'),
 		})), {
 			XYZDocumentModificationDate: [
@@ -83,13 +83,13 @@ describe('ZDRSchemaValidationCallback', function test_ZDRSchemaValidationCallbac
 	});
 
 	it('returns null', function() {
-		deepEqual(mod.ZDRSchemaValidationCallback(StubDocumentObjectValid()), null);
+		deepEqual(mod.ZDRSchemaDispatchValidate(StubDocumentObjectValid()), null);
 	});
 
 	context('XYZOptionValidateIfNotPresent', function() {
 
 		it('returns object if not valid', function() {
-			deepEqual(Object.keys(mod.ZDRSchemaValidationCallback({}, {
+			deepEqual(Object.keys(mod.ZDRSchemaDispatchValidate({}, {
 				XYZOptionValidateIfNotPresent: true,
 			})), [
 				'XYZDocumentID',

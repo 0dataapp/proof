@@ -8,9 +8,13 @@ import XYZDocument from './_shared/XYZDocument/main.js';
 import OLSKThrottle from 'OLSKThrottle';
 import OLSKLocalStorage from 'OLSKLocalStorage';
 import OLSKServiceWorker from 'OLSKServiceWorker';
+import zerodatawrap from 'zerodatawrap';
+
 const wn = webnative;
 
 import { OLSKLocalized } from 'OLSKInternational';
+
+const ZDRScopeDirectory = 'test_fission';
 
 const uSerial = function (inputData) {
 	return inputData.reduce(async function (coll, item) {
@@ -107,7 +111,7 @@ const mod = {
 	async ControlItemCreate () {
 		const item = mod.DataItemValid();
 
-		OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_DID_AUTHENTICATE') ? mod._ValueWNFSWrite(item) : OLSKLocalStorage.OLKSLocalStorageSet(localStorage, 'XYZ_ITEMS', mod._OLSKCatalog.modPublic.OLSKCatalogDataItemsAll().concat(item));
+		await mod._ValueZDRWrap.App.XYZDocument.XYZDocumentCreate(item);
 
 		// mod.ControlItemSelect(mod._OLSKCatalog.modPublic.OLSKCatalogInsert(await XYZDocumentAction.XYZDocumentActionCreate(mod._ValueOLSKRemoteStorage, mod.DataItemValid())));
 
@@ -122,7 +126,7 @@ const mod = {
 					XYZDocumentModificationDate: new Date(),
 				});
 
-				OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_DID_AUTHENTICATE') ? mod._ValueWNFSWrite(item) : OLSKLocalStorage.OLKSLocalStorageSet(localStorage, 'XYZ_ITEMS', mod._OLSKCatalog.modPublic.OLSKCatalogDataItemsAll());
+				mod._ValueZDRWrap.App.XYZDocument.XYZDocumentUpdate(item);
 
 				// await XYZDocumentAction.XYZDocumentActionUpdate(mod._ValueOLSKRemoteStorage, inputData);
 			},
@@ -134,7 +138,7 @@ const mod = {
 
 		mod._OLSKCatalog.modPublic.OLSKCatalogSelect(null);
 
-		OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_DID_AUTHENTICATE') ? mod._ValueWNFSDelete(inputData) : OLSKLocalStorage.OLKSLocalStorageSet(localStorage, 'XYZ_ITEMS', mod._OLSKCatalog.modPublic.OLSKCatalogDataItemsAll());
+		mod._ValueZDRWrap.App.XYZDocument.XYZDocumentDelete(item);
 
 		// XYZDocumentAction.XYZDocumentActionDelete(mod._ValueOLSKRemoteStorage, inputData);
 
@@ -199,88 +203,134 @@ const mod = {
 		});
 	},
 
+	ZDRParamDispatchError (error) {
+		mod._ValueCloudErrorText = error.message;
+	},
+
 	// SETUP
 
-	_SetupMethods () {
-		return Object.keys(mod).filter(function (e) {
-			return e.match(/^Setup/);
-		});
+	// _SetupMethods () {
+	// 	return Object.keys(mod).filter(function (e) {
+	// 		return e.match(/^Setup/);
+	// 	});
+	// },
+
+	async SetupEverything () {
+		try {
+			await mod.SetupStorageClient();
+			await mod.SetupCatalog();
+		} catch (error) {
+			console.error(error);
+		}
 	},
 
 	async SetupStorageClient () {
-		if (!OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_DID_AUTHENTICATE')) {
-			return;
-		}
+		const tree = JSON.parse(localStorage.getItem('XYZ_TREE')) || {};
 
-		const state = await wn.initialise({
-		  permissions: {
-		    app: {
-		      name: 'fission-proof',
-		      creator: 'rosano.ca',
-		    },
+		return new Promise(function (ZDRParamDispatchReady, rej) {
+			mod._ValueZDRWrap = zerodatawrap.ZDRWrap({
+				ZDRParamLibrary: OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_DID_AUTHENTICATE') ? webnative : {
+					ZDRClientWriteFile (param1, param2) {
+						localStorage.setItem('XYZ_TREE', JSON.stringify(Object.assign(tree, {
+							[param1]: param2,
+						})))
+					},
+					ZDRClientReadFile (inputData) {
+						return tree[inputData];
+					},
+					ZDRClientListObjects () {
+						return tree;
+					},
+					ZDRClientDelete (param1) {
+						delete tree[param1];
 
-		    fs: {
-		      privatePaths: [ 'Documents' ],
-		    }
-		  }
+						localStorage.setItem('XYZ_TREE', JSON.stringify(tree))
+					},
+				},
+				ZDRParamScopes: [{
+					ZDRScopeKey: 'App',
+					ZDRScopeDirectory,
+					ZDRScopeSchemas: [Object.assign(XYZDocument, {
+						ZDRSchemaKey: 'XYZDocument',
+					})],
+				}],
+				ZDRParamDispatchReady,
+				ZDRParamDispatchError: mod.ZDRParamDispatchError,
+			});
 		});
-		console.log('hello', OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_DID_AUTHENTICATE'), state.scenario);
 
-		switch (state.scenario) {
-		  case wn.Scenario.AuthCancelled:
-		    // User was redirected to lobby,
-		    // but cancelled the authorisation
-		    break;
+		// const state = await wn.initialise({
+		//   permissions: {
+		//     // app: {
+		//     //   name: 'fission-proof',
+		//     //   creator: 'rosano.ca',
+		//     // },
 
-		  case wn.Scenario.AuthSucceeded:
-		  case wn.Scenario.Continuation:
-		    mod._ValueWNFS = state.fs;
-		    mod._ValueWNFSPath = function (inputData) {
-		    	return mod._ValueWNFS.appPath() + '/' + inputData.XYZDocumentID;
-		    };
-		    mod._ValueWNFSWrite = async function (inputData) {
-		    	await mod._ValueWNFS.write(mod._ValueWNFSPath(inputData), JSON.stringify(inputData));
-		    	return mod._ValueWNFS.publish();
-		    };
-		    mod._ValueWNFSDelete = async function (inputData) {
-		    	await mod._ValueWNFS.rm(mod._ValueWNFSPath(inputData));
-		    	return mod._ValueWNFS.publish();
-		    };
+		//     fs: {
+		//       privatePaths: [ 'fission-proof' ],
+		//     }
+		//   }
+		// });
+		// console.log('hello', OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_DID_AUTHENTICATE'), state.scenario);
 
-		    if (!await mod._ValueWNFS.exists(mod._ValueWNFS.appPath())) {
-		      await mod._ValueWNFS.mkdir(mod._ValueWNFS.appPath())
-		    }
+		// switch (state.scenario) {
+		//   case wn.Scenario.AuthCancelled:
+		//     // User was redirected to lobby,
+		//     // but cancelled the authorisation
+		//     break;
 
-		    if (OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_ITEMS')) {
-		    	console.log(await Promise.all(OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse(OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_ITEMS')).map(mod._ValueWNFSWrite)));
+		//   case wn.Scenario.AuthSucceeded:
+		//   case wn.Scenario.Continuation:
+		//   	console.log(window.alfa = state.fs);
+		//     mod._ValueWNFS = state.fs;
+		    
+		//     const scopeDirectory = 'private/fission-proof';
+		//     mod._ValueWNFSPath = function (inputData) {
+		//     	return scopeDirectory + '/' + inputData.XYZDocumentID;
+		//     };
+		//     mod._ValueWNFSWrite = async function (inputData) {
+		//     	await mod._ValueWNFS.write(mod._ValueWNFSPath(inputData), JSON.stringify(inputData));
+		//     	// return mod._ValueWNFS.publish();
+		//     };
+		//     mod._ValueWNFSDelete = async function (inputData) {
+		//     	await mod._ValueWNFS.rm(mod._ValueWNFSPath(inputData));
+		//     	// return mod._ValueWNFS.publish();
+		//     };
 
-		    	OLSKLocalStorage.OLKSLocalStorageSet(localStorage, 'XYZ_ITEMS', null)
-		    };
+		//     if (!await mod._ValueWNFS.exists(scopeDirectory)) {
+		//       await mod._ValueWNFS.mkdir(scopeDirectory)
+		//     }
 
-		    await mod._ValueWNFS.publish();
+		//     if (OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_ITEMS')) {
+		//     	console.log(await Promise.all(OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse(OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_ITEMS')).map(mod._ValueWNFSWrite)));
 
-	    	const links = Object.entries(await mod._ValueWNFS.ls(mod._ValueWNFS.appPath()));
-	      console.log({
-	      	links,
-	      });
+		//     	OLSKLocalStorage.OLKSLocalStorageSet(localStorage, 'XYZ_ITEMS', null)
+		//     };
 
-	      // working with links
-	      const data = await Promise.all(links.map(([name, _]) => {
-	        return mod._ValueWNFS.cat(`${ mod._ValueWNFS.appPath() }/${name}`)
-	      }))
+		//     // await mod._ValueWNFS.publish();
 
-	      console.log({
-	      	data,
-	      });
+	 //    	const links = Object.entries(await mod._ValueWNFS.ls(scopeDirectory));
+	 //      console.log({
+	 //      	links,
+	 //      });
 
-	    	OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse(data.map(JSON.parse)).map(mod._OLSKCatalog.modPublic.OLSKCatalogInsert);
+	 //      // working with links
+	 //      const data = await Promise.all(links.map(([name, _]) => {
+	 //        return mod._ValueWNFS.cat(`${ scopeDirectory }/${name}`)
+	 //      }))
 
-		    break;
+	 //      console.log({
+	 //      	data,
+	 //      });
 
-		  case wn.Scenario.NotAuthorised:
-		    wn.redirectToLobby(state.permissions)
-		    break;
-		}
+	 //    	OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse(data.map(JSON.parse)).map(mod._OLSKCatalog.modPublic.OLSKCatalogInsert);
+
+		//     break;
+
+		//   case wn.Scenario.NotAuthorised:
+		//     wn.redirectToLobby(state.permissions)
+		//     break;
+		// }
 
 		// const storageModule = XYZ_Data.XYZ_DataModule([
 		// 	Object.assign(XYZDocumentStorage.XYZDocumentStorageBuild, {
@@ -358,22 +408,28 @@ const mod = {
 	},
 
 	async SetupCatalog() {
-		if (OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_DID_AUTHENTICATE')) {
-			return;
-		}
+		if (mod._ValueZDRWrap.ZDRStorageProtocol === zerodatawrap.ZDRProtocolFission() && !await mod._ValueZDRWrap.ZDRStorageClient().exists(`/private/${ZDRScopeDirectory}`)) {
+      await mod._ValueZDRWrap.ZDRStorageClient().mkdir(`/private/${ZDRScopeDirectory}`)
+    }
 
-		OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse(OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_ITEMS') || []).map(mod._OLSKCatalog.modPublic.OLSKCatalogInsert);
+    if (mod._ValueZDRWrap.ZDRStorageProtocol === zerodatawrap.ZDRProtocolFission() && OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_TREE')) {
+    	console.log(await Promise.all(OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse(Object.entries(OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_TREE')).map(JSON.parse)).map(mod._ValueZDRWrap.App.XYZDocument.XYZDocumentCreate)));
 
-		return;
-		(await XYZDocumentAction.XYZDocumentActionList(mod._ValueOLSKRemoteStorage)).map(mod._OLSKCatalog.modPublic.OLSKCatalogInsert);
+    	OLSKLocalStorage.OLKSLocalStorageSet(localStorage, 'XYZ_TREE', null)
+    };
+
+    (await mod._ValueZDRWrap.App.XYZDocument.XYZDocumentList()).map(mod._OLSKCatalog.modPublic.OLSKCatalogInsert);
+
+		// (await XYZDocumentAction.XYZDocumentActionList(mod._ValueOLSKRemoteStorage)).map(mod._OLSKCatalog.modPublic.OLSKCatalogInsert);
 	},
 
 	// LIFECYCLE
 
 	LifecycleModuleWillMount () {
-		return uSerial(mod._SetupMethods().map(function (e) {
-			return Promise.resolve(mod[e]());
-		}));
+		mod.SetupEverything();
+		// return uSerial(mod._SetupMethods().map(function (e) {
+		// 	return Promise.resolve(mod[e]());
+		// }));
 	},
 
 };

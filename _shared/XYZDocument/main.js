@@ -4,17 +4,17 @@ import OLSKRemoteStorage from 'OLSKRemoteStorage';
 
 const mod = {
 
-	ZDRSchemaStubCallback (inputData) {
+	ZDRSchemaStub (inputData) {
 		return {
 			XYZDocumentID: inputData,
 		};
 	},
 
-	ZDRSchemaPathCallback (inputData) {
+	ZDRSchemaPath (inputData) {
 		return inputData.XYZDocumentID;
 	},
 
-	ZDRSchemaValidationCallback (inputData, options = {}) {
+	ZDRSchemaDispatchValidate (inputData, options = {}) {
 		if (typeof inputData !== 'object' || inputData === null) {
 			throw new Error('XYZErrorInputNotValid');
 		}

@@ -17,7 +17,7 @@
     "launchlet": "latest",
     "ulid": "latest",
     "OLSKServiceWorker": "olsk/OLSKServiceWorker",
-    "webnative": "^0.21.3",
+    "zerodatawrap": "0dataapp/0datawrap",
     "// I sacrifice myself for the commas of others": null
   },
   "devDependencies": {
