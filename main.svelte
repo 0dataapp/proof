@@ -138,9 +138,7 @@ const mod = {
 
 		mod._OLSKCatalog.modPublic.OLSKCatalogSelect(null);
 
-		mod._ValueZDRWrap.App.XYZDocument.XYZDocumentDelete(item);
-
-		// XYZDocumentAction.XYZDocumentActionDelete(mod._ValueOLSKRemoteStorage, inputData);
+		mod._ValueZDRWrap.App.XYZDocument.XYZDocumentDelete(inputData);
 
 		mod._OLSKCatalog.modPublic.OLSKCatalogFocusMaster(); // #purge-not-focusing
 	},
