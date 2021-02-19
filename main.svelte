@@ -187,15 +187,8 @@ const mod = {
 	},
 
 	async OLSKCloudFormDispatchSubmit (inputData) {
-		const protocol = zerodatawrap.ZDRProtocolForIdentity(inputData);
-
-		if (localStorage.getItem('XYZ_STORAGE_PROTOCOL') && (localStorage.getItem('XYZ_STORAGE_PROTOCOL') !== protocol)) {
-			localStorage.setItem('XYZ_STORAGE_PROTOCOL_MIGRATE', localStorage.getItem('XYZ_STORAGE_PROTOCOL'));
-		}
-
-		localStorage.setItem('XYZ_STORAGE_PROTOCOL', protocol);
-
-		(localStorage.getItem('XYZ_STORAGE_PROTOCOL_MIGRATE') ? await mod.DataStorageClient(localStorage.getItem('XYZ_STORAGE_PROTOCOL')) : mod._ValueZDRWrap).ZDRCloudConnect(inputData);
+		const protocol = zerodatawrap.ZDRPreferenceProtocolConnect(inputData);
+		(zerodatawrap.ZDRPreferenceProtocolMigrate() ? await mod.DataStorageClient(protocol) : mod._ValueZDRWrap).ZDRCloudConnect(inputData);
 	},
 
 	OLSKCloudStatusDispatchSyncStart () {
@@ -212,6 +205,8 @@ const mod = {
 		mod._ValueZDRWrap.ZDRCloudDisconnect();
 
 		mod._ValueCloudIdentity = null;
+
+		zerodatawrap.ZDRPreferenceProtocolClear();
 	},
 
 	ZDRParamDispatchError (error) {
@@ -260,77 +255,68 @@ const mod = {
 	DataStorageClient (inputData) {
 		const tree = JSON.parse(localStorage.getItem('XYZ_TREE')) || {};
 
-		return new Promise(function (res, rej) {
-			const client = zerodatawrap.ZDRWrap({
-				ZDRParamLibrary: (function() {
-					if (inputData === zerodatawrap.ZDRProtocolFission()) {
-						return webnative;
-					}
+		return zerodatawrap.ZDRWrap({
+			ZDRParamLibrary: (function() {
+				if (inputData === zerodatawrap.ZDRProtocolFission()) {
+					return webnative;
+				}
 
-					if (inputData === zerodatawrap.ZDRProtocolRemoteStorage()) {
-						return RemoteStorage;
-					}
+				if (inputData === zerodatawrap.ZDRProtocolRemoteStorage()) {
+					return RemoteStorage;
+				}
 
-					return {
-						ZDRClientWriteFile (param1, param2) {
-							localStorage.setItem('XYZ_TREE', JSON.stringify(Object.assign(tree, {
-								[param1]: param2,
-							})))
-						},
-						ZDRClientReadFile (inputData) {
-							return tree[inputData];
-						},
-						ZDRClientListObjects () {
-							return tree;
-						},
-						ZDRClientDelete (param1) {
-							delete tree[param1];
+				return {
+					ZDRClientWriteFile (param1, param2) {
+						localStorage.setItem('XYZ_TREE', JSON.stringify(Object.assign(tree, {
+							[param1]: param2,
+						})))
+					},
+					ZDRClientReadFile (inputData) {
+						return tree[inputData];
+					},
+					ZDRClientListObjects () {
+						return Object.entries(tree).reduce(function (coll, [key, value]) {
+							return Object.assign(coll, {
+								[key]: JSON.parse(value),
+							});
+						}, {});
+					},
+					ZDRClientDelete (param1) {
+						delete tree[param1];
 
-							localStorage.setItem('XYZ_TREE', JSON.stringify(tree))
-						},
-					};
-				})(),
-				ZDRParamScopes: [{
-					ZDRScopeKey: 'App',
-					ZDRScopeDirectory,
-					ZDRScopeSchemas: [Object.assign(XYZDocument, {
-						ZDRSchemaKey: 'XYZDocument',
-					})],
-				}],
-				ZDRParamDispatchReady () {
-					return res(client);
-				},
-				ZDRParamDispatchError: mod.ZDRParamDispatchError,
-				ZDRParamDispatchConnected: mod.ZDRParamDispatchConnected,
-				ZDRParamDispatchOnline: mod.ZDRParamDispatchOnline,
-				ZDRParamDispatchOffline: mod.ZDRParamDispatchOffline,
-			});
+						localStorage.setItem('XYZ_TREE', JSON.stringify(tree))
+					},
+				};
+			})(),
+			ZDRParamScopes: [{
+				ZDRScopeKey: 'App',
+				ZDRScopeDirectory,
+				ZDRScopeSchemas: [Object.assign(XYZDocument, {
+					ZDRSchemaKey: 'XYZDocument',
+				})],
+			}],
+			ZDRParamDispatchError: mod.ZDRParamDispatchError,
+			ZDRParamDispatchConnected: mod.ZDRParamDispatchConnected,
+			ZDRParamDispatchOnline: mod.ZDRParamDispatchOnline,
+			ZDRParamDispatchOffline: mod.ZDRParamDispatchOffline,
 		});
 	},
 
 	async SetupStorageClient () {
-		if (!localStorage.getItem('XYZ_STORAGE_PROTOCOL')) {
-			localStorage.setItem('XYZ_STORAGE_PROTOCOL', zerodatawrap.ZDRProtocolCustom());
-		}
-
-		mod._ValueZDRWrap = await mod.DataStorageClient(localStorage.getItem('XYZ_STORAGE_PROTOCOL'));
+		mod._ValueZDRWrap = await mod.DataStorageClient(zerodatawrap.ZDRPreferenceProtocol(zerodatawrap.ZDRProtocolCustom()));
 	},
 
 	async SetupCatalog() {
-		if (mod._ValueZDRWrap.ZDRStorageProtocol === zerodatawrap.ZDRProtocolFission() && !await mod._ValueZDRWrap.ZDRStorageClient().exists(`/private/${ZDRScopeDirectory}`)) {
-      await mod._ValueZDRWrap.ZDRStorageClient().mkdir(`/private/${ZDRScopeDirectory}`)
-    }
+		if (zerodatawrap.ZDRPreferenceProtocolMigrate()) {
+			const client = await mod.DataStorageClient(zerodatawrap.ZDRPreferenceProtocolMigrate());
+			
+			await Promise.all(Object.entries(await client.App.ZDRStorageListObjects('')).map(async function ([key, value]) {
+				await mod._ValueZDRWrap.App.ZDRStorageWriteObject(key, value);
+				await client.App.ZDRStorageDelete(key);
+			}));
 
-    if (localStorage.getItem('XYZ_STORAGE_PROTOCOL_MIGRATE')) {
-    	const client = await mod.DataStorageClient(localStorage.getItem('XYZ_STORAGE_PROTOCOL_MIGRATE'));
-    	
-    	await Promise.all(Object.entries(await client.App.ZDRStorageListObjects('')).map(async function ([key, value]) {
-    		await mod._ValueZDRWrap.App.ZDRStorageWriteObject(key, JSON.parse(value));
-    		await client.App.ZDRStorageDelete(key);
-    	}));
-
-    	localStorage.removeItem('XYZ_STORAGE_PROTOCOL_MIGRATE');
-    };
+			zerodatawrap.ZDRPreferenceProtocolMigrateClear();
+		};
 
     (await mod._ValueZDRWrap.App.XYZDocument.XYZDocumentList()).map(mod._OLSKCatalog.modPublic.OLSKCatalogInsert);
 	},
