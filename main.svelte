@@ -281,8 +281,8 @@ const mod = {
 							});
 						}, {});
 					},
-					ZDRClientDelete (param1) {
-						delete tree[param1];
+					ZDRClientDelete (inputData) {
+						delete tree[inputData];
 
 						localStorage.setItem('XYZ_TREE', JSON.stringify(tree))
 					},
@@ -316,6 +316,8 @@ const mod = {
 			}));
 
 			zerodatawrap.ZDRPreferenceProtocolMigrateClear();
+
+			client.ZDRCloudDisconnect();
 		};
 
     (await mod._ValueZDRWrap.App.XYZDocument.XYZDocumentList()).map(mod._OLSKCatalog.modPublic.OLSKCatalogInsert);
