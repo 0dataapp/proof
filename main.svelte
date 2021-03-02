@@ -312,7 +312,7 @@ const mod = {
 			
 			await Promise.all(Object.entries(await client.App.ZDRStorageListObjects('')).map(async function ([key, value]) {
 				await mod._ValueZDRWrap.App.ZDRStorageWriteObject(key, value);
-				await client.App.ZDRStorageDelete(key);
+				await client.App.ZDRStorageDeleteFile(key);
 			}));
 
 			zerodatawrap.ZDRPreferenceProtocolMigrateClear();
