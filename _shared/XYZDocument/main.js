@@ -4,6 +4,8 @@ import OLSKRemoteStorage from 'OLSKRemoteStorage';
 
 const mod = {
 
+	ZDRSchemaKey: 'XYZDocument',
+
 	ZDRSchemaStub (inputData) {
 		return {
 			XYZDocumentID: inputData,

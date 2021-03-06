@@ -292,7 +292,10 @@ const mod = {
 				ZDRScopeKey: 'App',
 				ZDRScopeDirectory,
 				ZDRScopeSchemas: [Object.assign(XYZDocument, {
-					ZDRSchemaKey: 'XYZDocument',
+					ZDRSchemaDispatchSyncCreate: mod._OLSKCatalog.modPublic.OLSKCatalogInsert,
+					ZDRSchemaDispatchSyncUpdate: mod._OLSKCatalog.modPublic.OLSKCatalogUpdate,
+					ZDRSchemaDispatchSyncDelete: mod._OLSKCatalog.modPublic.OLSKCatalogRemove,
+					ZDRSchemaDispatchSyncConflict: mod.ZDRSchemaDispatchSyncConflict,
 				})],
 			}],
 			ZDRParamDispatchError: mod.ZDRParamDispatchError,
