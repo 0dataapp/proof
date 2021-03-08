@@ -27,8 +27,6 @@ const mod = {
 
 	_ValueStorageToolbarHidden: true,
 
-	_ValueFooterStorageStatus: '',
-
 	// DATA
 
 	DataItemValid () {
