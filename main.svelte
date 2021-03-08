@@ -1,5 +1,6 @@
 <script>
-import OLSKRemoteStorage from 'OLSKRemoteStorage'
+import OLSKRemoteStorage from 'OLSKRemoteStorage';
+import OLSKObject from 'OLSKObject';
 import XYZDocument from './_shared/XYZDocument/main.js';
 import OLSKThrottle from 'OLSKThrottle';
 import OLSKLocalStorage from 'OLSKLocalStorage';
@@ -300,6 +301,7 @@ const mod = {
 			ZDRParamDispatchConnected: mod.ZDRParamDispatchConnected,
 			ZDRParamDispatchOnline: mod.ZDRParamDispatchOnline,
 			ZDRParamDispatchOffline: mod.ZDRParamDispatchOffline,
+			_ZDRParamDispatchJSONPreStringify: OLSKObject.OLSKObjectSafeCopy,
 			_ZDRParamDispatchJSONPostParse: OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse,
 		});
 	},
