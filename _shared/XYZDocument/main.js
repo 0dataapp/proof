@@ -27,7 +27,7 @@ const mod = {
 			errors.XYZDocumentID = [
 				'XYZErrorNotString',
 			];
-		} else if (inputData.XYZDocumentID.trim() === '') {
+		} else if (!inputData.XYZDocumentID.trim()) {
 			errors.XYZDocumentID = [
 				'XYZErrorNotFilled',
 			];
