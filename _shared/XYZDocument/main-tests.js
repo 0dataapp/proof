@@ -139,11 +139,11 @@ describe('XYZDocumentCreate', function test_XYZDocumentActCreate() {
 		deepEqual([...(new Set(items))], items);
 	});
 
-	it('sets XYZDocumentCreationDate to now', async function() {
+	it('sets XYZDocumentCreationDate', async function() {
 		deepEqual(new Date() - (await XYZTestingWrap.App.XYZDocument.XYZDocumentCreate(StubDocumentObject())).XYZDocumentCreationDate < 100, true);
 	});
 
-	it('sets XYZDocumentModificationDate to now', async function() {
+	it('sets XYZDocumentModificationDate', async function() {
 		deepEqual(new Date() - (await XYZTestingWrap.App.XYZDocument.XYZDocumentCreate(StubDocumentObject())).XYZDocumentModificationDate < 100, true);
 	});
 
@@ -182,7 +182,7 @@ describe('XYZDocumentUpdate', function test_XYZDocumentActUpdate() {
 		}));
 	});
 
-	it('sets XYZDocumentModificationDate to now', async function() {
+	it('sets XYZDocumentModificationDate', async function() {
 		deepEqual(new Date() - (await XYZTestingWrap.App.XYZDocument.XYZDocumentUpdate(await XYZTestingWrap.App.XYZDocument.XYZDocumentCreate(StubDocumentObject()))).XYZDocumentModificationDate < 100, true);
 	});
 
