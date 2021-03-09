@@ -342,7 +342,7 @@ import { onMount } from 'svelte';
 onMount(mod.LifecycleModuleWillMount);
 
 const inputData = Object.assign({
-	OLSKCatalogItemAccessibilitySummaryFor (inputData) {
+	OLSKMasterListItemAccessibilitySummaryFor (inputData) {
 		return inputData.XYZDocumentName;
 	},
 }, Array.from((new window.URLSearchParams(window.location.search)).entries()));
