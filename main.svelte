@@ -151,7 +151,7 @@ const mod = {
 		mod._OLSKCatalog.modPublic.OLSKCatalogSelect(inputData);
 	},
 
-	OLSKCatalogDispatchSortFunction (a, b) {
+	OLSKCatalogSortFunction (a, b) {
 		return b.XYZDocumentModificationDate - a.XYZDocumentModificationDate;
 	},
 
@@ -367,7 +367,7 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 	OLSKCatalogDispatchClick={ mod.OLSKCatalogDispatchClick }
 	OLSKCatalogDispatchArrow={ mod.OLSKCatalogDispatchArrow }
 	
-	OLSKCatalogDispatchSortFunction={ mod.OLSKCatalogDispatchSortFunction }
+	OLSKCatalogSortFunction={ mod.OLSKCatalogSortFunction }
 	OLSKCatalogDispatchFilterFunction={ mod.OLSKCatalogDispatchFilterFunction }
 	OLSKCatalogDispatchExactFunction={ mod.OLSKCatalogDispatchExactFunction }
 
