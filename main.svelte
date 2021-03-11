@@ -26,7 +26,7 @@ const mod = {
 
 	_ValueSaveThrottleMap: {},
 
-	_ValueStorageToolbarHidden: true,
+	_ValueCloudToolbarHidden: true,
 
 	// DATA
 
@@ -168,7 +168,7 @@ const mod = {
 	},
 
 	OLSKAppToolbarDispatchStorage () {
-		mod._ValueStorageToolbarHidden = !mod._ValueStorageToolbarHidden;
+		mod._ValueCloudToolbarHidden = !mod._ValueCloudToolbarHidden;
 	},
 
 	OLSKAppToolbarDispatchLauncher () {
@@ -413,7 +413,7 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 </div>
 
 <footer class="TestViewportFooter OLSKMobileViewFooter">
-	{#if !mod._ValueStorageToolbarHidden }
+	{#if !mod._ValueCloudToolbarHidden }
 		<div class="TestStorageToolbar OLSKToolbar OLSKToolbarJustify OLSKCommonEdgeTop OLSKStorageToolbar">
 			<div class="OLSKToolbarElementGroup">
 			</div>
