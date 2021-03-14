@@ -159,7 +159,7 @@ const mod = {
 		return item.XYZDocumentName.match(text);
 	},
 
-	OLSKCatalogExactFunction (item, text) {
+	OLSKCatalogMatchIsExact (item, text) {
 		return item.XYZDocumentName.startsWith(text);
 	},
 
@@ -369,7 +369,7 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 	
 	OLSKCatalogSortFunction={ mod.OLSKCatalogSortFunction }
 	OLSKCatalogFilterFunction={ mod.OLSKCatalogFilterFunction }
-	OLSKCatalogExactFunction={ mod.OLSKCatalogExactFunction }
+	OLSKCatalogMatchIsExact={ mod.OLSKCatalogMatchIsExact }
 
 	_OLSKCatalogDispatchKey={ mod._OLSKCatalogDispatchKey }
 
