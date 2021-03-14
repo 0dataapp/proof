@@ -155,7 +155,7 @@ const mod = {
 		return b.XYZDocumentModificationDate - a.XYZDocumentModificationDate;
 	},
 
-	OLSKCatalogFilterFunction (item, text) {
+	OLSKCatalogMatchIsResult (item, text) {
 		return item.XYZDocumentName.match(text);
 	},
 
@@ -368,7 +368,7 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 	OLSKCatalogDispatchArrow={ mod.OLSKCatalogDispatchArrow }
 	
 	OLSKCatalogSortFunction={ mod.OLSKCatalogSortFunction }
-	OLSKCatalogFilterFunction={ mod.OLSKCatalogFilterFunction }
+	OLSKCatalogMatchIsResult={ mod.OLSKCatalogMatchIsResult }
 	OLSKCatalogMatchIsExact={ mod.OLSKCatalogMatchIsExact }
 
 	_OLSKCatalogDispatchKey={ mod._OLSKCatalogDispatchKey }
