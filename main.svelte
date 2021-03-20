@@ -357,8 +357,6 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 </script>
 <svelte:window on:keydown={ mod.InterfaceWindowDidKeydown } />
 
-<OLSKServiceWorkerView OLSKServiceWorkerRegistrationRoute={ window.OLSKCanonical('FissionProofServiceWorkerRoute') } />
-
 <div class="OLSKViewport">
 
 <div class="OLSKViewportContent">
@@ -442,6 +440,8 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 		OLSKAppToolbarDispatchStorage={ mod.OLSKAppToolbarDispatchStorage }
 		OLSKAppToolbarDispatchLauncher={ mod.OLSKAppToolbarDispatchLauncher }
 		/>
+
+	<OLSKServiceWorkerView OLSKServiceWorkerRegistrationRoute={ window.OLSKCanonical('FissionProofServiceWorkerRoute') } />
 </footer>
 
 </div>
