@@ -20,6 +20,10 @@ const uSerial = function (inputData) {
 	}, Promise.resolve([]));
 };
 
+const uDescending = function (a, b) {
+  return (a > b) ? -1 : ((a < b) ? 1 : 0);
+};
+
 const mod = {
 
 	// VALUE
@@ -152,7 +156,11 @@ const mod = {
 	},
 
 	OLSKCatalogSortFunction (a, b) {
-		return b.XYZDocumentModificationDate - a.XYZDocumentModificationDate;
+		return (function(e) {
+			return uDescending(a[e], b[e]);
+		})(['XYZDocumentModificationDate', 'XYZDocumentCreationDate'].filter(function (e) {
+			return a[e] && b[e];
+		}).shift());
 	},
 
 	OLSKCatalogMatchIsResult (item, text) {
