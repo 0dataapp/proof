@@ -163,12 +163,12 @@ const mod = {
 		}).shift());
 	},
 
-	OLSKCatalogMatchIsResult (item, text) {
+	OLSKCatalogIsMatch (item, text) {
 		return item.XYZDocumentName.match(text);
 	},
 
-	OLSKCatalogMatchIsExact (item, text) {
-		return item.XYZDocumentName.startsWith(text);
+	OLSKCatalogExactSortFunction (needle, a, b) {
+		return uDescending(a.XYZDocumentName.startsWith(needle), b.XYZDocumentName.startsWith(needle));
 	},
 
 	_OLSKCatalogDispatchKey (inputData) {
@@ -376,8 +376,8 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 	OLSKCatalogDispatchArrow={ mod.OLSKCatalogDispatchArrow }
 	
 	OLSKCatalogSortFunction={ mod.OLSKCatalogSortFunction }
-	OLSKCatalogMatchIsResult={ mod.OLSKCatalogMatchIsResult }
-	OLSKCatalogMatchIsExact={ mod.OLSKCatalogMatchIsExact }
+	OLSKCatalogIsMatch={ mod.OLSKCatalogIsMatch }
+	OLSKCatalogExactSortFunction={ mod.OLSKCatalogExactSortFunction }
 
 	_OLSKCatalogDispatchKey={ mod._OLSKCatalogDispatchKey }
 
