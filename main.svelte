@@ -422,7 +422,7 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 
 <footer class="TestViewportFooter OLSKMobileViewFooter">
 	{#if !mod._ValueCloudToolbarHidden }
-		<div class="TestStorageToolbar OLSKToolbar OLSKToolbarJustify OLSKCommonEdgeTop OLSKStorageToolbar">
+		<div class="TestStorageToolbar OLSKToolbar OLSKToolbarJustify OLSKCommonEdgeTop">
 			<div class="OLSKToolbarElementGroup">
 			</div>
 
