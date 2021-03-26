@@ -175,7 +175,7 @@ const mod = {
 		return inputData.XYZDocumentID;
 	},
 
-	OLSKAppToolbarDispatchStorage () {
+	OLSKAppToolbarDispatchCloud () {
 		mod._ValueCloudToolbarHidden = !mod._ValueCloudToolbarHidden;
 	},
 
@@ -445,7 +445,7 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 		OLSKAppToolbarCloudConnected={ !!mod._ValueCloudIdentity }
 		OLSKAppToolbarCloudOffline={ mod._ValueCloudIsOffline }
 		OLSKAppToolbarCloudError={ !!mod._ValueCloudErrorText }
-		OLSKAppToolbarDispatchStorage={ mod.OLSKAppToolbarDispatchStorage }
+		OLSKAppToolbarDispatchCloud={ mod.OLSKAppToolbarDispatchCloud }
 		OLSKAppToolbarDispatchLauncher={ mod.OLSKAppToolbarDispatchLauncher }
 		/>
 
