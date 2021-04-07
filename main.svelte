@@ -147,7 +147,7 @@ const mod = {
 
 	// MESSAGE
 
-	OLSKCatalogDispatchClick (inputData) {
+	OLSKCollectionDispatchClick (inputData) {
 		mod.ControlItemSelect(inputData);
 	},
 
@@ -372,7 +372,7 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 <OLSKCatalog
 	bind:this={ mod._OLSKCatalog }
 
-	OLSKCatalogDispatchClick={ mod.OLSKCatalogDispatchClick }
+	OLSKCollectionDispatchClick={ mod.OLSKCollectionDispatchClick }
 	OLSKCatalogDispatchArrow={ mod.OLSKCatalogDispatchArrow }
 	
 	OLSKCatalogSortFunction={ mod.OLSKCatalogSortFunction }
