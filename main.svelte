@@ -396,7 +396,7 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 		</div>
 	</div>
 	
-	<div class="XYZListItem" slot="OLSKMasterListItem">{ OLSKResultsListItem.XYZDocumentName || OLSKResultsListItem.XYZDocumentID }</div>
+	<div class="XYZListItem" slot="OLSKCollectionItem">{ OLSKResultsListItem.XYZDocumentName || OLSKResultsListItem.XYZDocumentID }</div>
 	
 	<!-- DETAIL -->
 	
@@ -460,7 +460,7 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 	font-family: 'Helvetica';
 }
 
-:global(.OLSKMasterListItem) {
+:global(.OLSKCollectionItem) {
 	border-bottom: var(--OLSKCommonEdgeBorder);
 }
 
