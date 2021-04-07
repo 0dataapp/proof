@@ -383,7 +383,7 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 
 	{ ...inputData }
 
-	let:OLSKResultsListItem
+	let:OLSKCollectionItem
 	>
 
 	<!-- MASTER -->
@@ -396,7 +396,7 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 		</div>
 	</div>
 	
-	<div class="XYZListItem" slot="OLSKCollectionItem">{ OLSKResultsListItem.XYZDocumentName || OLSKResultsListItem.XYZDocumentID }</div>
+	<div class="XYZListItem" slot="OLSKCollectionItem">{ OLSKCollectionItem.XYZDocumentName || OLSKCollectionItem.XYZDocumentID }</div>
 	
 	<!-- DETAIL -->
 	
