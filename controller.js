@@ -14,7 +14,7 @@ exports.OLSKControllerRoutes = function() {
 	}, {
 		OLSKRoutePath: '/sw.js',
 		OLSKRouteMethod: 'get',
-		OLSKRouteSignature: 'FissionProofServiceWorkerRoute',
+		OLSKRouteSignature: 'ZeroDataProofServiceWorkerRoute',
 		OLSKRouteFunction(req, res, next) {
 			return res.type('js').send(OLSKServiceWorker.OLSKServiceWorkerView({
 				VERSION_ID_TOKEN: kProofServiceWorkerVersionID,
