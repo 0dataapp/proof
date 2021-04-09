@@ -429,8 +429,9 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 		OLSKAppToolbarCloudOffline={ mod._ValueCloudIsOffline }
 		OLSKAppToolbarCloudError={ !!mod._ValueCloudErrorText }
 		OLSKAppToolbarDispatchCloud={ mod.OLSKAppToolbarDispatchCloud }
-		OLSKAppToolbarDispatchLauncher={ mod.OLSKAppToolbarDispatchLauncher }
-		/>
+		OLSKAppToolbarDispatchLauncher={ mod.OLSKAppToolbarDispatchLauncher }>
+		<a href={ 'XYZ_REPO_URL_SWAP_TOKEN' } target="_blank">Repo</a>
+	</OLSKAppToolbar>
 
 	<OLSKServiceWorkerView OLSKServiceWorkerRegistrationRoute={ window.OLSKCanonical('ZeroDataProofServiceWorkerRoute') } />
 </footer>
