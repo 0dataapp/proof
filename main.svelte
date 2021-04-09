@@ -6,19 +6,11 @@ import OLSKThrottle from 'OLSKThrottle';
 import OLSKLocalStorage from 'OLSKLocalStorage';
 import OLSKServiceWorker from 'OLSKServiceWorker';
 import zerodatawrap from 'zerodatawrap';
-
 import RemoteStorage from 'remotestoragejs';
-const wn = webnative;
 
 import { OLSKLocalized } from 'OLSKInternational';
 
 const ZDRScopeDirectory = '0data-proof';
-
-const uSerial = function (inputData) {
-	return inputData.reduce(async function (coll, item) {
-		return item.then(Array.prototype.concat.bind(await coll));
-	}, Promise.resolve([]));
-};
 
 const uDescending = function (a, b) {
   return (a > b) ? -1 : ((a < b) ? 1 : 0);
@@ -35,14 +27,14 @@ const mod = {
 	// DATA
 
 	DataItemValid () {
-		const date = new Date();
+		const XYZDocumentCreationDate = new Date();
 
 		return {
 			XYZDocumentName: '',
 			// non-storage
 			XYZDocumentID: Date.now().toString(),
-			XYZDocumentCreationDate: date,
-			XYZDocumentModificationDate: date,
+			XYZDocumentCreationDate,
+			XYZDocumentModificationDate: XYZDocumentCreationDate,
 		};
 	},
 
@@ -51,13 +43,13 @@ const mod = {
 
 		items.push(...OLSKServiceWorker.OLSKServiceWorkerRecipes(window, mod.DataNavigator(), OLSKLocalized, OLSK_SPEC_UI()));
 
-		// items.push(...OLSKRemoteStorage.OLSKRemoteStorageRecipes({
-		// 	ParamWindow: window,
-		// 	ParamStorage: mod._ValueOLSKRemoteStorage,
-		// 	OLSKLocalized: OLSKLocalized,
-		// 	ParamMod: mod,
-		// 	ParamSpecUI: false,
-		// });
+		items.push(...OLSKRemoteStorage.OLSKRemoteStorageRecipes({
+			ParamWindow: window,
+			ParamStorage: mod._ValueOLSKRemoteStorage,
+			OLSKLocalized: OLSKLocalized,
+			ParamMod: mod,
+			ParamSpecUI: false,
+		});
 	
 		return items;
 	},
@@ -244,12 +236,6 @@ const mod = {
 
 	// SETUP
 
-	// _SetupMethods () {
-	// 	return Object.keys(mod).filter(function (e) {
-	// 		return e.match(/^Setup/);
-	// 	});
-	// },
-
 	async SetupEverything () {
 		try {
 			await mod.SetupStorageClient();
@@ -339,9 +325,6 @@ const mod = {
 
 	LifecycleModuleWillMount () {
 		mod.SetupEverything();
-		// return uSerial(mod._SetupMethods().map(function (e) {
-		// 	return Promise.resolve(mod[e]());
-		// }));
 	},
 
 };
