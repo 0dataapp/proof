@@ -12,7 +12,7 @@ const wn = webnative;
 
 import { OLSKLocalized } from 'OLSKInternational';
 
-const ZDRScopeDirectory = 'test_fission';
+const ZDRScopeDirectory = '0data-proof';
 
 const uSerial = function (inputData) {
 	return inputData.reduce(async function (coll, item) {
