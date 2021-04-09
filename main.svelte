@@ -49,7 +49,7 @@ const mod = {
 			OLSKLocalized: OLSKLocalized,
 			ParamMod: mod,
 			ParamSpecUI: false,
-		});
+		}));
 	
 		return items;
 	},
