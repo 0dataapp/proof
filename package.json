@@ -14,6 +14,7 @@
     "OLSKThrottle": "olsk/OLSKThrottle",
     "OLSKRouting": "olsk/OLSKRouting",
     "OLSKUIAssets": "olsk/OLSKUIAssets",
+    "OLSKObject": "olsk/OLSKObject",
     "launchlet": "latest",
     "ulid": "latest",
     "OLSKServiceWorker": "olsk/OLSKServiceWorker",
