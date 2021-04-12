@@ -8,7 +8,6 @@
   "dependencies": {
     "OLSKPithApp": "olsk/OLSKPithApp",
     "OLSKCatalog": "olsk/OLSKCatalog",
-    "OLSKThrottle": "olsk/OLSKThrottle",
     "OLSKLocalStorage": "olsk/OLSKLocalStorage",
     "// I sacrifice myself for the commas of others": null
   },
