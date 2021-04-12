@@ -84,7 +84,7 @@ const mod = {
 		const handlerFunctions = {
 
 			Tab () {
-				document.activeElement !== document.querySelector('.OLSKMasterListFilterField') ? mod._OLSKCatalog.modPublic.OLSKCatalogFocusMaster() : mod.ControlFocusDetail();
+				document.activeElement !== document.querySelector('.OLSKNarrowFilterField') ? mod._OLSKCatalog.modPublic.OLSKCatalogFocusMaster() : mod.ControlFocusDetail();
 
 				event.preventDefault();
 			},
@@ -371,7 +371,7 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 
 	<!-- MASTER -->
 
-	<div class="OLSKToolbarElementGroup" slot="OLSKMasterListToolbarTail">
+	<div class="OLSKToolbarElementGroup" slot="OLSKNarrowToolbarTail">
 		<div>
 			<button class="TestItemCreateButton OLSKDecorButtonNoStyle OLSKDecorTappable OLSKToolbarButton"on:click={ mod.InterfaceCreateButtonDidClick } accesskey="n">
 				<div>{@html _OLSKSharedCreate }</div>
