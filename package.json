@@ -6,26 +6,15 @@
     "watch": "olsk-rollup-watch"
   },
   "dependencies": {
-    "OLSKAppToolbar": "olsk/OLSKAppToolbar",
+    "OLSKPithApp": "olsk/OLSKPithApp",
     "OLSKCatalog": "olsk/OLSKCatalog",
-    "OLSKRemoteStorage": "olsk/OLSKRemoteStorage",
-    "OLSKLocalStorage": "olsk/OLSKLocalStorage",
-    "OLSKCloud": "olsk/OLSKCloud",
     "OLSKThrottle": "olsk/OLSKThrottle",
-    "OLSKRouting": "olsk/OLSKRouting",
-    "OLSKUIAssets": "olsk/OLSKUIAssets",
-    "OLSKObject": "olsk/OLSKObject",
-    "launchlet": "latest",
-    "ulid": "latest",
-    "OLSKServiceWorker": "olsk/OLSKServiceWorker",
-    "zerodatawrap": "0dataapp/0datawrap",
+    "OLSKLocalStorage": "olsk/OLSKLocalStorage",
     "// I sacrifice myself for the commas of others": null
   },
   "devDependencies": {
-    "OLSKExpress": "olsk/OLSKExpress",
+    "OLSKPithToolchain": "olsk/OLSKPithToolchain",
     "OLSKRollupScaffold": "olsk/OLSKRollupScaffold",
-    "OLSKString": "olsk/OLSKString",
-    "OLSKHotfix": "olsk/OLSKHotfix",
     "// I sacrifice myself for the commas of others": null
   }
 }
