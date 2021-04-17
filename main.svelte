@@ -44,7 +44,6 @@ const mod = {
 		items.push(...OLSKServiceWorker.OLSKServiceWorkerRecipes(window, mod.DataNavigator(), OLSKLocalized, OLSK_SPEC_UI()));
 
 		items.push(...OLSKRemoteStorage.OLSKRemoteStorageRecipes({
-			ParamWindow: window,
 			ParamStorage: mod._ValueOLSKRemoteStorage,
 			OLSKLocalized: OLSKLocalized,
 			ParamMod: mod,
