@@ -45,7 +45,7 @@ const mod = {
 
 		items.push(...OLSKRemoteStorage.OLSKRemoteStorageRecipes({
 			ParamStorage: mod._ValueOLSKRemoteStorage,
-			OLSKLocalized: OLSKLocalized,
+			OLSKLocalized,
 			ParamMod: mod,
 			ParamSpecUI: false,
 		}));
