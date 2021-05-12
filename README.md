@@ -2,7 +2,7 @@
 
 A sample app that integrates with multiple [0data](https://0data.app) protocols
 
-<a href="https://proof.0data.app/"><img alt="Open app" src="http://rosano.s3.amazonaws.com/public/_shared/_RCSAppButton.svg" /></a>
+<a href="https://proof.0data.app/"><img alt="Open app" src="http://static.rosano.ca/_shared/_RCSAppButton.svg" /></a>
 
 ## Architecture
 
