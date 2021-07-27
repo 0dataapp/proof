@@ -38,6 +38,12 @@ npm start
 
 It should be accessible at <a href="http://localhost:3000" target="_blank">http://localhost:3000</a>.
 
+## ❤️
+
+If you’re enjoying this, consider contributing to my Open Collective. Virtually everything I create is public, accessible for free, and open-source. Your support helps me keep adding to the commons and making it available for everyone.
+
+<a href="https://opencollective.com/rosano"><img alt="Contribute" src="http://static.rosano.ca/_shared/_RCSContributeButton.svg" /></a>
+
 ## Questions
 
 Feel free to reach out on [Mastodon](https://merveilles.town/@rosano) or [Twitter](https://twitter.com/rosano).
