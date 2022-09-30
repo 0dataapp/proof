@@ -8,12 +8,10 @@
   "dependencies": {
     "OLSKPithApp": "olsk/OLSKPithApp",
     "OLSKCatalog": "olsk/OLSKCatalog",
-    "OLSKLocalStorage": "olsk/OLSKLocalStorage",
-    "//": "I sacrifice myself for the commas of others"
+    "OLSKLocalStorage": "olsk/OLSKLocalStorage"
   },
   "devDependencies": {
     "OLSKPithToolchain": "olsk/OLSKPithToolchain",
-    "OLSKRollupScaffold": "olsk/OLSKRollupScaffold",
-    "//": "I sacrifice myself for the commas of others"
+    "OLSKRollupScaffold": "olsk/OLSKRollupScaffold"
   }
 }
