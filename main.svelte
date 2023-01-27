@@ -50,12 +50,16 @@ const mod = {
 
 		items.push(...OLSKServiceWorker.OLSKServiceWorkerRecipes(window, mod.DataNavigator(), OLSKLocalized, OLSK_SPEC_UI()));
 
-		items.push(...OLSKRemoteStorage.OLSKRemoteStorageRecipes({
-			ParamStorage: mod._ValueOLSKRemoteStorage,
-			OLSKLocalized,
-			ParamMod: mod,
-			ParamSpecUI: false,
-		}));
+
+
+		if (mod._ValueZDRWrap.ZDRStorageProtocol === zerodatawrap.ZDRProtocolRemoteStorage()) {
+			items.push(...OLSKRemoteStorage.OLSKRemoteStorageRecipes({
+				ParamStorage: mod._ValueZDRWrap.ZDRStorageClient(),
+				OLSKLocalized,
+				ParamMod: mod,
+				ParamSpecUI: OLSK_SPEC_UI(),
+			}));
+		}
 	
 		return items;
 	},
@@ -197,13 +201,19 @@ const mod = {
 	},
 
 	OLSKCloudStatusDispatchSyncStart () {
-		mod._ValueIsSyncing = true;
+		if (mod._ValueZDRWrap.ZDRStorageProtocol !== zerodatawrap.ZDRProtocolRemoteStorage()) {
+			return;
+		}
 
-		mod._ValueOLSKRemoteStorage.startSync();
+		mod._ValueZDRWrap.ZDRStorageClient().startSync();
 	},
 
 	OLSKCloudStatusDispatchSyncStop () {
-		mod._ValueOLSKRemoteStorage.stopSync();
+		if (mod._ValueZDRWrap.ZDRStorageProtocol !== zerodatawrap.ZDRProtocolRemoteStorage()) {
+			return;
+		}
+
+		mod._ValueZDRWrap.ZDRStorageClient().stopSync();
 	},
 
 	OLSKCloudStatusDispatchDisconnect () {
@@ -230,6 +240,14 @@ const mod = {
 
 	ZDRParamDispatchOffline () {
 		mod._ValueCloudIsOffline = true;
+	},
+
+	ZDRParamDispatchSyncDidStart () {
+		mod._ValueIsSyncing = true;
+	},
+
+	ZDRParamDispatchSyncDidStop () {
+		mod._ValueIsSyncing = false;
 	},
 
 	ZDRSchemaDispatchSyncConflict (event) {
