@@ -9,6 +9,7 @@ import zerodatawrap from 'zerodatawrap';
 import RemoteStorage from 'remotestoragejs';
 
 import { OLSKLocalized } from 'OLSKInternational';
+import { OLSK_SPEC_UI } from 'OLSKSpec';
 
 const ZDRScopeDirectory = '0data-proof';
 
@@ -35,6 +36,12 @@ const mod = {
 			XYZDocumentID: Date.now().toString(),
 			XYZDocumentCreationDate,
 			XYZDocumentModificationDate: XYZDocumentCreationDate,
+		};
+	},
+
+	DataNavigator () {
+		return navigator.serviceWorker ? navigator : {
+			serviceWorker: {},
 		};
 	},
 
