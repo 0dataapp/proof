@@ -443,6 +443,8 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 :root {
 	font-size: 9pt;
 	font-family: 'Helvetica';
+	--OLSKDecorBackgroundDeep: #eee;
+	--OLSKDecorBackgroundDeepEdge: var(--OLSKDecorForegroundLight);
 }
 
 :global(.OLSKCollectionItem) {
