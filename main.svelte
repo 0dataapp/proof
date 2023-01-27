@@ -272,7 +272,7 @@ const mod = {
 	},
 
 	DataStorageClient (inputData) {
-		const tree = JSON.parse(localStorage.getItem('XYZ_TREE')) || {};
+		const tree = OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_TREE') || {};
 
 		return zerodatawrap.ZDRWrap({
 			ZDRParamLibrary: (function() {
@@ -286,9 +286,9 @@ const mod = {
 
 				return {
 					ZDRClientWriteFile (param1, param2) {
-						localStorage.setItem('XYZ_TREE', JSON.stringify(Object.assign(tree, {
-							[param1]: param2,
-						})))
+						OLSKLocalStorage.OLKSLocalStorageSet(localStorage, 'XYZ_TREE', Object.assign(tree, {
+							[param1]: JSON.stringify(param2),
+						}));
 					},
 					ZDRClientReadFile (inputData) {
 						return tree[inputData];
@@ -303,7 +303,7 @@ const mod = {
 					ZDRClientDelete (inputData) {
 						delete tree[inputData];
 
-						localStorage.setItem('XYZ_TREE', JSON.stringify(tree))
+						OLSKLocalStorage.OLKSLocalStorageSet(localStorage, 'XYZ_TREE', tree);
 					},
 				};
 			})(),
