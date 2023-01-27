@@ -291,7 +291,7 @@ const mod = {
 						}));
 					},
 					ZDRClientReadFile (inputData) {
-						return tree[inputData];
+						return tree[inputData.replace('//', '/')];
 					},
 					ZDRClientListObjects () {
 						return Object.entries(tree).reduce(function (coll, [key, value]) {
