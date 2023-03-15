@@ -231,9 +231,7 @@ const mod = {
 	},
 
 	ZDRParamDispatchWriteError (error) {
-		mod.ZDRParamDispatchError(error);
-
-		window.alert(error.message);
+		window.alert(mod._OLSKAppToolbarErrorText = error.message);
 	},
 
 	ZDRParamDispatchConnected (identity) {
@@ -458,6 +456,7 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 	{/if}
 
 	<OLSKAppToolbar
+		OLSKAppToolbarErrorText={ mod._OLSKAppToolbarErrorText }
 		OLSKAppToolbarCloudConnected={ !!mod._ValueCloudIdentity }
 		OLSKAppToolbarCloudOffline={ mod._ValueCloudIsOffline }
 		OLSKAppToolbarCloudError={ !!mod._ValueCloudErrorText }
