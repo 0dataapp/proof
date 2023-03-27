@@ -291,7 +291,7 @@ const mod = {
 				return {
 					ZDRClientWriteFile (param1, param2) {
 						OLSKLocalStorage.OLKSLocalStorageSet(localStorage, 'XYZ_TREE', Object.assign(tree, {
-							[param1]: JSON.stringify(param2),
+							[param1]: param2,
 						}));
 					},
 					ZDRClientReadFile (inputData) {
@@ -300,7 +300,7 @@ const mod = {
 					ZDRClientListObjects () {
 						return Object.entries(tree).reduce(function (coll, [key, value]) {
 							return Object.assign(coll, {
-								[key]: JSON.parse(value),
+								[key]: value,
 							});
 						}, {});
 					},
@@ -340,7 +340,7 @@ const mod = {
 			const client = await mod.DataStorageClient(zerodatawrap.ZDRPreferenceProtocolMigrate());
 			
 			await Promise.all(Object.entries(await client.App.ZDRStorageListingObjects('')).map(async function ([key, value]) {
-				await mod._ValueZDRWrap.App.ZDRStorageWriteObject(key, value);
+				await mod._ValueZDRWrap.App.ZDRStorageWriteObject(key, JSON.parse(value));
 				await client.App.ZDRStorageDeleteFile(key);
 			}));
 
