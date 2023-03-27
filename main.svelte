@@ -462,7 +462,9 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 		OLSKAppToolbarCloudError={ !!mod._ValueCloudErrorText }
 		OLSKAppToolbarDispatchCloud={ mod.OLSKAppToolbarDispatchCloud }
 		OLSKAppToolbarDispatchLauncher={ mod.OLSKAppToolbarDispatchLauncher }>
-		<a href={ 'XYZ_REPO_URL_SWAP_TOKEN' } target="_blank">Repo</a>
+		<a class="RepoLink OLSKDecorPress OLSKDecorPressCall" href={ 'XYZ_REPO_URL_SWAP_TOKEN' } target="_blank">
+			<small>Repo</small>
+		</a>
 	</OLSKAppToolbar>
 
 	<OLSKServiceWorkerView OLSKServiceWorkerRegistrationRoute={ window.OLSKCanonical('ZeroDataProofServiceWorkerRoute') } />
@@ -495,5 +497,13 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 
 .TestItemField {
 	border: none;
+}
+
+.RepoLink {
+	border-width: 1px !important;
+	font-weight: normal;
+	padding: 8px 5px;
+	position: relative;
+	left: 24px;
 }
 </style>
