@@ -280,10 +280,6 @@ const mod = {
 
 		return zerodatawrap.ZDRWrap({
 			ZDRParamLibrary: (function() {
-				if (inputData === zerodatawrap.ZDRProtocolFission()) {
-					return webnative;
-				}
-
 				if (inputData === zerodatawrap.ZDRProtocolRemoteStorage()) {
 					return RemoteStorage;
 				}
