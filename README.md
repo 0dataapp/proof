@@ -42,8 +42,8 @@ It should be accessible at <a href="http://localhost:3000" target="_blank">http:
 
 Help me keep creating projects that are public, accessible for free, and open-source.
 
-<a href="https://rosano.ca/back"><img alt="Send a gift" src="https://static.rosano.ca/_shared/_RCSBackButton.svg" /></a>
+<a href="https://rosano.ca/back"><img alt="Send a gift" src="https://static.rosano.ca/_shared/_RCSGiftButton.svg" /></a>
 
 ## Questions
 
-Feel free to reach out on [Mastodon](https://rosano.ca/mastodon) or [Twitter](https://rosano.ca/twitter).
+Feel free to reach out on [Mastodon](https://rosano.ca/mastodon) or [Bluesky](https://rosano.ca/bluesky).
