@@ -63,7 +63,7 @@ const mod = {
 		},
 
 		async XYZDocumentList () {
-			return Object.values(await this.App.XYZDocument.ZDRModelListObjects()).map(OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse);
+			return (await this.App.XYZDocument.ZDRModelListObjects()).map(OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse);
 		},
 
 	},
