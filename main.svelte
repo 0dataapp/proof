@@ -28,13 +28,10 @@ const mod = {
 	// DATA
 
 	DataItemValid () {
-		const XYZDocumentModificationDate = new Date();
-
 		return {
 			XYZDocumentName: '',
 			// non-storage
 			XYZDocumentID: Date.now().toString(),
-			XYZDocumentModificationDate,
 		};
 	},
 
@@ -117,9 +114,7 @@ const mod = {
 		OLSKThrottle.OLSKThrottleMappedTimeout(mod._ValueSaveThrottleMap, inputData.XYZDocumentID, {
 			OLSKThrottleDuration: 250,
 			async OLSKThrottleCallback () {
-				mod._ValueZDRWrap.App.XYZDocument.XYZDocumentUpdate(Object.assign(mod._OLSKCatalog.modPublic.OLSKCatalogDataItemSelected(), {
-					XYZDocumentModificationDate: new Date(),
-				}));
+				mod._ValueZDRWrap.App.XYZDocument.XYZDocumentUpdate(mod._OLSKCatalog.modPublic.OLSKCatalogDataItemSelected());
 			},
 		});
 	},
@@ -159,7 +154,7 @@ const mod = {
 	OLSKCatalogSortFunction (a, b) {
 		return (function(e) {
 			return uDescending(a[e], b[e]);
-		})(['XYZDocumentModificationDate'].filter(function (e) {
+		})(['XYZDocumentID'].filter(function (e) {
 			return a[e] && b[e];
 		}).shift());
 	},
