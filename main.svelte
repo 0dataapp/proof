@@ -31,7 +31,7 @@ const mod = {
 		return {
 			XYZDocumentName: '',
 			// non-storage
-			XYZDocumentID: Date.now().toString(),
+			$XYZDocumentID: Date.now().toString(),
 		};
 	},
 
@@ -111,7 +111,7 @@ const mod = {
 	},
 
 	ControlItemUpdate (inputData) {
-		OLSKThrottle.OLSKThrottleMappedTimeout(mod._ValueSaveThrottleMap, inputData.XYZDocumentID, {
+		OLSKThrottle.OLSKThrottleMappedTimeout(mod._ValueSaveThrottleMap, inputData.$XYZDocumentID, {
 			OLSKThrottleDuration: 250,
 			async OLSKThrottleCallback () {
 				mod._ValueZDRWrap.App.XYZDocument.XYZDocumentUpdate(mod._OLSKCatalog.modPublic.OLSKCatalogDataItemSelected());
@@ -154,7 +154,7 @@ const mod = {
 	OLSKCatalogSortFunction (a, b) {
 		return (function(e) {
 			return uDescending(a[e], b[e]);
-		})(['XYZDocumentID'].filter(function (e) {
+		})(['$XYZDocumentID'].filter(function (e) {
 			return a[e] && b[e];
 		}).shift());
 	},
@@ -168,7 +168,7 @@ const mod = {
 	},
 
 	_OLSKCatalogDispatchKey (inputData) {
-		return inputData.XYZDocumentID;
+		return inputData.$XYZDocumentID;
 	},
 
 	OLSKAppToolbarDispatchCloud () {
@@ -400,7 +400,7 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 		</div>
 	</div>
 	
-	<div class="XYZListItem" slot="OLSKCollectionItem">{ OLSKCollectionItem.XYZDocumentName || OLSKCollectionItem.XYZDocumentID }</div>
+	<div class="XYZListItem" slot="OLSKCollectionItem">{ OLSKCollectionItem.XYZDocumentName || OLSKCollectionItem.$XYZDocumentID }</div>
 	
 	<!-- DETAIL -->
 	

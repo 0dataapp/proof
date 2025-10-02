@@ -5,9 +5,9 @@ const mod = require('./main.js').default;
 describe('ZDRSchemaStub', function ZDRSchemaStub() {
 
 	it('returns string', function() {
-		const XYZDocumentID = Math.random().toString();
-		deepEqual(mod.ZDRSchemaStub(XYZDocumentID), {
-			XYZDocumentID,
+		const $XYZDocumentID = Math.random().toString();
+		deepEqual(mod.ZDRSchemaStub($XYZDocumentID), {
+			$XYZDocumentID,
 		});
 	});
 
@@ -16,10 +16,10 @@ describe('ZDRSchemaStub', function ZDRSchemaStub() {
 describe('ZDRSchemaPath', function ZDRSchemaPath() {
 
 	it('returns string', function() {
-		const XYZDocumentID = Math.random().toString();
+		const $XYZDocumentID = Math.random().toString();
 		deepEqual(mod.ZDRSchemaPath({
-			XYZDocumentID,
-		}), XYZDocumentID);
+			$XYZDocumentID,
+		}), $XYZDocumentID);
 	});
 
 });
@@ -32,21 +32,21 @@ describe('ZDRSchemaDispatchValidate', function test_ZDRSchemaDispatchValidate() 
 		}, /XYZErrorInputNotValid/);
 	});
 
-	it('returns object if XYZDocumentID not string', function() {
+	it('returns object if $XYZDocumentID not string', function() {
 		deepEqual(mod.ZDRSchemaDispatchValidate(Object.assign(StubDocumentObjectValid(), {
-			XYZDocumentID: null,
+			$XYZDocumentID: null,
 		})), {
-			XYZDocumentID: [
+			$XYZDocumentID: [
 				'XYZErrorNotString',
 			],
 		});
 	});
 
-	it('returns object if XYZDocumentID not filled', function() {
+	it('returns object if $XYZDocumentID not filled', function() {
 		deepEqual(mod.ZDRSchemaDispatchValidate(Object.assign(StubDocumentObjectValid(), {
-			XYZDocumentID: ' ',
+			$XYZDocumentID: ' ',
 		})), {
-			XYZDocumentID: [
+			$XYZDocumentID: [
 				'XYZErrorNotFilled',
 			],
 		});
@@ -72,7 +72,7 @@ describe('ZDRSchemaDispatchValidate', function test_ZDRSchemaDispatchValidate() 
 			deepEqual(Object.keys(mod.ZDRSchemaDispatchValidate({}, {
 				XYZOptionValidateIfNotPresent: true,
 			})), [
-				'XYZDocumentID',
+				'$XYZDocumentID',
 				'XYZDocumentName',
 			]);
 		});
@@ -103,14 +103,14 @@ describe('XYZDocumentCreate', function test_XYZDocumentActCreate() {
 		let item = await XYZTestingWrap.App.XYZDocument.XYZDocumentCreate(StubDocumentObject());
 
 		deepEqual(item, StubDocumentObject({
-			XYZDocumentID: item.XYZDocumentID,
+			$XYZDocumentID: item.$XYZDocumentID,
 			XYZDocumentName: item.XYZDocumentName,
 		}));
 	});
 
-	it('sets XYZDocumentID to unique value', async function() {
+	it('sets $XYZDocumentID to unique value', async function() {
 		let items = await uSerial(Array.from(Array(10)).map(async function (e) {
-			return (await XYZTestingWrap.App.XYZDocument.XYZDocumentCreate(StubDocumentObject())).XYZDocumentID;
+			return (await XYZTestingWrap.App.XYZDocument.XYZDocumentCreate(StubDocumentObject())).$XYZDocumentID;
 		}));
 		deepEqual([...(new Set(items))], items);
 	});
@@ -150,10 +150,10 @@ describe('XYZDocumentUpdate', function test_XYZDocumentActUpdate() {
 
 	it('writes inputData if not found', async function() {
 		let item = await XYZTestingWrap.App.XYZDocument.XYZDocumentUpdate(Object.assign(StubDocumentObject(), {
-			XYZDocumentID: 'alfa',
+			$XYZDocumentID: 'alfa',
 		}));
 		deepEqual(item, Object.assign(StubDocumentObject(), {
-			XYZDocumentID: item.XYZDocumentID,
+			$XYZDocumentID: item.$XYZDocumentID,
 			XYZDocumentName: item.XYZDocumentName,
 		}));
 	});

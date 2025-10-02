@@ -8,12 +8,12 @@ const mod = {
 
 	ZDRSchemaStub (inputData) {
 		return {
-			XYZDocumentID: inputData,
+			$XYZDocumentID: inputData,
 		};
 	},
 
 	ZDRSchemaPath (inputData) {
-		return inputData.XYZDocumentID;
+		return inputData.$XYZDocumentID;
 	},
 
 	ZDRSchemaDispatchValidate (inputData, options = {}) {
@@ -23,12 +23,12 @@ const mod = {
 
 		const errors = {};
 
-		if (typeof inputData.XYZDocumentID !== 'string') {
-			errors.XYZDocumentID = [
+		if (typeof inputData.$XYZDocumentID !== 'string') {
+			errors.$XYZDocumentID = [
 				'XYZErrorNotString',
 			];
-		} else if (!inputData.XYZDocumentID.trim()) {
-			errors.XYZDocumentID = [
+		} else if (!inputData.$XYZDocumentID.trim()) {
+			errors.$XYZDocumentID = [
 				'XYZErrorNotFilled',
 			];
 		}
@@ -50,7 +50,7 @@ const mod = {
 			}
 
 			return this.App.XYZDocument.ZDRModelWriteObject(Object.assign({
-				XYZDocumentID: uniqueID(),
+				$XYZDocumentID: uniqueID(),
 			}, inputData));
 		},
 

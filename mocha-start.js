@@ -9,7 +9,7 @@
 
 		StubDocumentObjectValid(inputData) {
 			return Object.assign(StubDocumentObject({
-				XYZDocumentID: 'bravo',
+				$XYZDocumentID: Math.random().toString(),
 			}), inputData);
 		},
 
