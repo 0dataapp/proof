@@ -2,6 +2,10 @@ import { ulid } from 'ulid';
 const uniqueID = ulid;
 import OLSKRemoteStorage from 'OLSKRemoteStorage';
 
+const inject = function (object, properties) {
+  return Object.assign(Object.assign({}, object), properties);
+};
+
 const mod = {
 
 	ZDRSchemaKey: 'XYZDocument',
@@ -33,8 +37,8 @@ const mod = {
 			];
 		}
 
-		if (typeof inputData.XYZDocumentName !== 'string') {
-			errors.XYZDocumentName = [
+		if (typeof inputData.description !== 'string') {
+			errors.description = [
 				'XYZErrorNotString',
 			];
 		}
@@ -63,7 +67,10 @@ const mod = {
 		},
 
 		async XYZDocumentList () {
-			return (await this.App.XYZDocument.ZDRModelListObjects()).map(OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse);
+			const _this = this;
+			return (await Promise.all((await _this.App.XYZDocument._ZDRModelListObjects()).map(async e => [e, OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse(await _this.App.ZDRStorageReadObject(e))]))).map(e => inject(e[1], {
+				$XYZDocumentID: e[0].split('/').pop(),
+			}));
 		},
 
 	},

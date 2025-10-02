@@ -52,11 +52,11 @@ describe('ZDRSchemaDispatchValidate', function test_ZDRSchemaDispatchValidate() 
 		});
 	});
 
-	it('returns object if XYZDocumentName not string', function() {
+	it('returns object if description not string', function() {
 		deepEqual(mod.ZDRSchemaDispatchValidate(Object.assign(StubDocumentObjectValid(), {
-			XYZDocumentName: null,
+			description: null,
 		})), {
-			XYZDocumentName: [
+			description: [
 				'XYZErrorNotString',
 			],
 		});
@@ -73,7 +73,7 @@ describe('ZDRSchemaDispatchValidate', function test_ZDRSchemaDispatchValidate() 
 				XYZOptionValidateIfNotPresent: true,
 			})), [
 				'$XYZDocumentID',
-				'XYZDocumentName',
+				'description',
 			]);
 		});
 
@@ -91,9 +91,9 @@ describe('XYZDocumentCreate', function test_XYZDocumentActCreate() {
 
 	it('rejects with errors if not valid', async function() {
 		await rejects(XYZTestingWrap.App.XYZDocument.XYZDocumentCreate(StubDocumentObject({
-			XYZDocumentName: null,
+			description: null,
 		})), {
-			XYZDocumentName: [
+			description: [
 				'XYZErrorNotString',
 			],
 		});
@@ -104,7 +104,7 @@ describe('XYZDocumentCreate', function test_XYZDocumentActCreate() {
 
 		deepEqual(item, StubDocumentObject({
 			$XYZDocumentID: item.$XYZDocumentID,
-			XYZDocumentName: item.XYZDocumentName,
+			description: item.description,
 		}));
 	});
 
@@ -132,9 +132,9 @@ describe('XYZDocumentUpdate', function test_XYZDocumentActUpdate() {
 
 	it('rejects with errors if not valid', async function() {
 		await rejects(XYZTestingWrap.App.XYZDocument.XYZDocumentUpdate(Object.assign(await XYZTestingWrap.App.XYZDocument.XYZDocumentCreate(StubDocumentObject()), {
-			XYZDocumentName: null,
+			description: null,
 		})), {
-			XYZDocumentName: [
+			description: [
 				'XYZErrorNotString',
 			],
 		});
@@ -154,7 +154,7 @@ describe('XYZDocumentUpdate', function test_XYZDocumentActUpdate() {
 		}));
 		deepEqual(item, Object.assign(StubDocumentObject(), {
 			$XYZDocumentID: item.$XYZDocumentID,
-			XYZDocumentName: item.XYZDocumentName,
+			description: item.description,
 		}));
 	});
 

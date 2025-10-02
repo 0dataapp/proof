@@ -3,7 +3,7 @@
 
 		StubDocumentObject(inputData) {
 			return Object.assign({
-				XYZDocumentName: 'alfa',
+				description: 'alfa',
 			}, inputData);
 		},
 

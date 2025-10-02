@@ -11,7 +11,7 @@ import RemoteStorage from 'remotestoragejs';
 import { OLSKLocalized } from 'OLSKInternational';
 import { OLSK_SPEC_UI } from 'OLSKSpec';
 
-const ZDRScopeDirectory = '0data-proof';
+const ZDRScopeDirectory = 'todos';
 
 const uDescending = function (a, b) {
   return (a > b) ? -1 : ((a < b) ? 1 : 0);
@@ -29,7 +29,7 @@ const mod = {
 
 	DataItemValid () {
 		return {
-			XYZDocumentName: '',
+			description: '',
 			// non-storage
 			$XYZDocumentID: Date.now().toString(),
 		};
@@ -75,7 +75,7 @@ const mod = {
 	},
 
 	InterfaceFieldDidInput () {
-		mod._OLSKCatalog.modPublic.OLSKCatalogDataItemSelected().XYZDocumentName = this.value;
+		mod._OLSKCatalog.modPublic.OLSKCatalogDataItemSelected().description = this.value;
 
 		mod.ControlItemUpdate(mod._OLSKCatalog.modPublic.OLSKCatalogDataItemSelected());
 
@@ -160,11 +160,11 @@ const mod = {
 	},
 
 	OLSKCatalogIsMatch (item, text) {
-		return item.XYZDocumentName.match(text);
+		return item.description.match(text);
 	},
 
 	OLSKCatalogExactSortFunction (needle, a, b) {
-		return uDescending(a.XYZDocumentName.startsWith(needle), b.XYZDocumentName.startsWith(needle));
+		return uDescending(a.description.startsWith(needle), b.description.startsWith(needle));
 	},
 
 	_OLSKCatalogDispatchKey (inputData) {
@@ -355,7 +355,7 @@ onMount(mod.LifecycleModuleWillMount);
 
 const inputData = Object.assign({
 	OLSKCollectionItemAccessibilitySummaryFunction (inputData) {
-		return inputData.XYZDocumentName;
+		return inputData.description;
 	},
 }, Array.from((new window.URLSearchParams(window.location.search)).entries()));
 
@@ -400,7 +400,7 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 		</div>
 	</div>
 	
-	<div class="XYZListItem" slot="OLSKCollectionItem">{ OLSKCollectionItem.XYZDocumentName || OLSKCollectionItem.$XYZDocumentID }</div>
+	<div class="XYZListItem" slot="OLSKCollectionItem">{ OLSKCollectionItem.description || OLSKCollectionItem.$XYZDocumentID }</div>
 	
 	<!-- DETAIL -->
 	
@@ -416,7 +416,7 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 	</header>
 
 	<div class="TestForm OLSKDecor">
-		<textarea class="TestItemField" on:input={ mod.InterfaceFieldDidInput } placeholder="Content">{ OLSKCatalogItemSelected.XYZDocumentName }</textarea>
+		<textarea class="TestItemField" on:input={ mod.InterfaceFieldDidInput } placeholder="Content">{ OLSKCatalogItemSelected.description }</textarea>
 	</div>
 	
 	</div>
