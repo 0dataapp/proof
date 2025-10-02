@@ -62,16 +62,6 @@ describe('ZDRSchemaDispatchValidate', function test_ZDRSchemaDispatchValidate() 
 		});
 	});
 
-	it('returns object if XYZDocumentCreationDate not date', function() {
-		deepEqual(mod.ZDRSchemaDispatchValidate(Object.assign(StubDocumentObjectValid(), {
-			XYZDocumentCreationDate: new Date('alfa'),
-		})), {
-			XYZDocumentCreationDate: [
-				'XYZErrorNotDate',
-			],
-		});
-	});
-
 	it('returns object if XYZDocumentModificationDate not date', function() {
 		deepEqual(mod.ZDRSchemaDispatchValidate(Object.assign(StubDocumentObjectValid(), {
 			XYZDocumentModificationDate: new Date('alfa'),
@@ -94,7 +84,6 @@ describe('ZDRSchemaDispatchValidate', function test_ZDRSchemaDispatchValidate() 
 			})), [
 				'XYZDocumentID',
 				'XYZDocumentName',
-				'XYZDocumentCreationDate',
 				'XYZDocumentModificationDate',
 			]);
 		});
@@ -127,7 +116,6 @@ describe('XYZDocumentCreate', function test_XYZDocumentActCreate() {
 		deepEqual(item, StubDocumentObject({
 			XYZDocumentID: item.XYZDocumentID,
 			XYZDocumentName: item.XYZDocumentName,
-			XYZDocumentCreationDate: item.XYZDocumentCreationDate,
 			XYZDocumentModificationDate: item.XYZDocumentModificationDate,
 		}));
 	});
@@ -137,10 +125,6 @@ describe('XYZDocumentCreate', function test_XYZDocumentActCreate() {
 			return (await XYZTestingWrap.App.XYZDocument.XYZDocumentCreate(StubDocumentObject())).XYZDocumentID;
 		}));
 		deepEqual([...(new Set(items))], items);
-	});
-
-	it('sets XYZDocumentCreationDate', async function() {
-		deepEqual(new Date() - (await XYZTestingWrap.App.XYZDocument.XYZDocumentCreate(StubDocumentObject())).XYZDocumentCreationDate < 100, true);
 	});
 
 	it('sets XYZDocumentModificationDate', async function() {
@@ -189,12 +173,10 @@ describe('XYZDocumentUpdate', function test_XYZDocumentActUpdate() {
 	it('writes inputData if not found', async function() {
 		let item = await XYZTestingWrap.App.XYZDocument.XYZDocumentUpdate(Object.assign(StubDocumentObject(), {
 			XYZDocumentID: 'alfa',
-			XYZDocumentCreationDate: new Date(),
 		}));
 		deepEqual(item, Object.assign(StubDocumentObject(), {
 			XYZDocumentID: item.XYZDocumentID,
 			XYZDocumentName: item.XYZDocumentName,
-			XYZDocumentCreationDate: item.XYZDocumentCreationDate,
 			XYZDocumentModificationDate: item.XYZDocumentModificationDate,
 		}));
 	});

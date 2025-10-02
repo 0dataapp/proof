@@ -10,7 +10,6 @@
 		StubDocumentObjectValid(inputData) {
 			return Object.assign(StubDocumentObject({
 				XYZDocumentID: 'bravo',
-				XYZDocumentCreationDate: new Date('2019-02-23T13:56:36Z'),
 				XYZDocumentModificationDate: new Date('2019-02-23T13:56:36Z'),
 			}), inputData);
 		},

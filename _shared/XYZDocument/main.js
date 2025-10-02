@@ -39,12 +39,6 @@ const mod = {
 			];
 		}
 
-		if (!(inputData.XYZDocumentCreationDate instanceof Date) || Number.isNaN(inputData.XYZDocumentCreationDate.getTime())) {
-			errors.XYZDocumentCreationDate = [
-				'XYZErrorNotDate',
-			];
-		}
-
 		if (!(inputData.XYZDocumentModificationDate instanceof Date) || Number.isNaN(inputData.XYZDocumentModificationDate.getTime())) {
 			errors.XYZDocumentModificationDate = [
 				'XYZErrorNotDate',
@@ -61,12 +55,11 @@ const mod = {
 				throw new Error('XYZErrorInputNotValid');
 			}
 
-			const XYZDocumentCreationDate = new Date();
+			const XYZDocumentModificationDate = new Date();
 
 			return this.App.XYZDocument.ZDRModelWriteObject(Object.assign({
 				XYZDocumentID: uniqueID(),
-				XYZDocumentCreationDate,
-				XYZDocumentModificationDate: XYZDocumentCreationDate,
+				XYZDocumentModificationDate,
 			}, inputData));
 		},
 

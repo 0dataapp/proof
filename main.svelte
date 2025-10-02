@@ -28,14 +28,13 @@ const mod = {
 	// DATA
 
 	DataItemValid () {
-		const XYZDocumentCreationDate = new Date();
+		const XYZDocumentModificationDate = new Date();
 
 		return {
 			XYZDocumentName: '',
 			// non-storage
 			XYZDocumentID: Date.now().toString(),
-			XYZDocumentCreationDate,
-			XYZDocumentModificationDate: XYZDocumentCreationDate,
+			XYZDocumentModificationDate,
 		};
 	},
 
@@ -160,7 +159,7 @@ const mod = {
 	OLSKCatalogSortFunction (a, b) {
 		return (function(e) {
 			return uDescending(a[e], b[e]);
-		})(['XYZDocumentModificationDate', 'XYZDocumentCreationDate'].filter(function (e) {
+		})(['XYZDocumentModificationDate'].filter(function (e) {
 			return a[e] && b[e];
 		}).shift());
 	},
