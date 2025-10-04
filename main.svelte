@@ -417,6 +417,8 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 
 	<div class="TestForm OLSKDecor">
 		<textarea class="TestItemField" on:input={ mod.InterfaceFieldDidInput } placeholder="Content">{ OLSKCatalogItemSelected.description }</textarea>
+		<hr>
+		<pre>{ JSON.stringify(OLSKCatalogItemSelected, null, ' ') }</pre>
 	</div>
 	
 	</div>
@@ -483,6 +485,8 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 	flex: 1;
 	display: flex;
 	flex-direction: column;
+
+	resize: none;
 }
 
 .TestItemField {
