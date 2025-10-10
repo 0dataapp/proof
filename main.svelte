@@ -132,7 +132,7 @@ const mod = {
 
 		mod._OLSKCatalog.modPublic.OLSKCatalogFocusDetail();
 
-		setTimeout(mod.ControlFocusDetail);
+		setTimeout(mod.ControlFocusDetail, 100);
 	},
 
 	ControlFocusDetail() {
