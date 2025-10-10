@@ -380,7 +380,11 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 	<div class="TestDetail" slot="OLSKCatalogDetailContent" let:OLSKCatalogItemSelected>
 	
 	<header class="OLSKToolbar OLSKToolbarJustify OLSKCommonEdgeBottom">
-		<div class="OLSKToolbarElementGroup"></div>
+		<div class="OLSKToolbarElementGroup">
+			<button class="TestDetailToolbarBackButton OLSKDecorButtonNoStyle OLSKDecorTappable OLSKToolbarButton OLSKVisibilityMobile" title={ OLSKLocalized('TestDetailToolbarBackButtonText') } on:click={ mod.InterfaceBackButtonDidClick }>
+				<div class="TestDetailToolbarBackButtonImage">{@html _OLSKSharedBack }</div>
+			</button>
+		</div>
 		<div class="OLSKToolbarElementGroup">
 			<button class="TestItemDiscardButton OLSKDecorButtonNoStyle OLSKDecorTappable OLSKToolbarButton"on:click={ mod.InterfaceDiscardButtonDidClick }>
 				<div>{@html _OLSKSharedDiscard }</div>
