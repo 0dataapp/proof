@@ -6,7 +6,7 @@ import OLSKThrottle from 'OLSKThrottle';
 import OLSKLocalStorage from 'OLSKLocalStorage';
 import OLSKServiceWorker from 'OLSKServiceWorker';
 import zerodatawrap from 'zerodatawrap';
-import RemoteStorage from 'remotestoragejs';
+import remoteStorage from 'remotestoragejs';
 
 import { OLSKLocalized } from 'OLSKInternational';
 import { OLSK_SPEC_UI } from 'OLSKSpec';
@@ -45,8 +45,6 @@ const mod = {
 		const items = [];
 
 		items.push(...OLSKServiceWorker.OLSKServiceWorkerRecipes(window, mod.DataNavigator(), OLSKLocalized, OLSK_SPEC_UI()));
-
-
 
 		if (mod._ValueZDRWrap.ZDRStorageProtocol === zerodatawrap.ZDRProtocolRemoteStorage()) {
 			items.push(...OLSKRemoteStorage.OLSKRemoteStorageRecipes({
@@ -274,32 +272,7 @@ const mod = {
 
 		return zerodatawrap.ZDRWrap({
 			ZDRParamLibrary: (function() {
-				if (inputData === zerodatawrap.ZDRProtocolRemoteStorage()) {
-					return RemoteStorage;
-				}
-
-				return {
-					ZDRClientWriteFile (param1, param2) {
-						OLSKLocalStorage.OLKSLocalStorageSet(localStorage, 'XYZ_TREE', Object.assign(tree, {
-							[param1]: param2,
-						}));
-					},
-					ZDRClientReadFile (inputData) {
-						return tree[inputData.replace('//', '/')];
-					},
-					ZDRClientListObjects () {
-						return Object.entries(tree).reduce(function (coll, [key, value]) {
-							return Object.assign(coll, {
-								[key]: value,
-							});
-						}, {});
-					},
-					ZDRClientDelete (inputData) {
-						delete tree[inputData];
-
-						OLSKLocalStorage.OLKSLocalStorageSet(localStorage, 'XYZ_TREE', tree);
-					},
-				};
+				return remoteStorage;
 			})(),
 			ZDRParamScopes: [{
 				ZDRScopeKey: 'App',
@@ -322,7 +295,7 @@ const mod = {
 	},
 
 	async SetupStorageClient () {
-		mod._ValueZDRWrap = await mod.DataStorageClient(zerodatawrap.ZDRPreferenceProtocol(zerodatawrap.ZDRProtocolCustom()));
+		mod._ValueZDRWrap = await mod.DataStorageClient(zerodatawrap.ZDRPreferenceProtocol(zerodatawrap.ZDRProtocolRemoteStorage()));
 	},
 
 	async SetupCatalog() {
