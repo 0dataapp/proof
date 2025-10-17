@@ -268,8 +268,6 @@ const mod = {
 	},
 
 	DataStorageClient (inputData) {
-		const tree = OLSKLocalStorage.OLKSLocalStorageGet(localStorage, 'XYZ_TREE') || {};
-
 		return zerodatawrap.ZDRWrap({
 			ZDRParamLibrary: (function() {
 				return remoteStorage;
