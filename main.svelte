@@ -468,6 +468,11 @@ import _OLSKSharedDiscard from './node_modules/OLSKUIAssets/_OLSKSharedDiscard.s
 
 .TestItemField {
 	border: none;
+
+}
+
+pre {
+	white-space: pre-wrap;
 }
 
 .RepoLink {
