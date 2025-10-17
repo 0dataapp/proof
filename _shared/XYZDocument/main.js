@@ -6,6 +6,10 @@ const inject = function (object, properties) {
   return Object.assign(Object.assign({}, object), properties);
 };
 
+const uDescending = function (a, b) {
+  return (a > b) ? -1 : ((a < b) ? 1 : 0);
+};
+
 const mod = {
 
 	ZDRSchemaKey: 'XYZDocument',
@@ -70,7 +74,9 @@ const mod = {
 			const _this = this;
 			return (await Promise.all((await _this.App.XYZDocument._ZDRModelListObjects()).map(async e => [e, OLSKRemoteStorage.OLSKRemoteStoragePostJSONParse(await _this.App.ZDRStorageReadObject(e))]))).map(e => inject(e[1], {
 				$XYZDocumentID: e[0].split('/').pop(),
-			}));
+			})).sort(function (a, b) {
+			return uDescending(a.$XYZDocumentID, b.$XYZDocumentID)
+		});
 		},
 
 	},
